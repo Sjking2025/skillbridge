@@ -136,10 +136,6 @@ body{margin:0;padding:0;background:#0F172A;font-family:'Segoe UI',Arial,sans-ser
 
 /* member card */
 .mcard{background:linear-gradient(145deg,#0A1628,#0D2137);border-radius:14px;padding:24px 28px;margin-bottom:26px;border:1px solid rgba(14,165,164,0.22);position:relative;overflow:hidden}
-.mcard-bar{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#0EA5A4,#6366F1)}
-.mcard-lbl{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(14,165,164,0.75);margin-bottom:14px}
-.mcard-top{display:flex;align-items:center;margin-bottom:18px}
-.avtr{width:48px;height:48px;line-height:48px;text-align:center;border-radius:50%;background:linear-gradient(135deg,#0EA5A4,#0891B2);font-size:18px;font-weight:800;color:#fff;}
 .mcard-info{flex:1;padding-left:12px}
 .mcard-name{font-size:17px;font-weight:800;color:#fff;margin:0 0 3px}
 .mcard-since{font-size:11px;color:rgba(255,255,255,0.38)}
@@ -179,10 +175,6 @@ body{margin:0;padding:0;background:#0F172A;font-family:'Segoe UI',Arial,sans-ser
 .j-title{font-size:13px;font-weight:700;color:#1F2937;margin:0 0 14px}
 .j-row{display:flex;align-items:center}
 .j-step{text-align:center;flex:1;min-width:0;padding:0 2px}
-.j-dot{width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;margin:0 auto 5px;font-size:12px;font-weight:800;display:block;}
-.j-dot.done{background:#0EA5A4;color:#fff}
-.j-dot.now{background:#FF9933;color:#fff}
-.j-dot.next{background:#E5E7EB;color:#9CA3AF}
 .j-lbl{font-size:10px;font-weight:600;color:#6B7280}
 .j-line{flex:1;height:2px;background:#D1D5DB;max-width:28px}
 .j-line.done{background:#0EA5A4}
@@ -252,7 +244,13 @@ body{margin:0;padding:0;background:#0F172A;font-family:'Segoe UI',Arial,sans-ser
     <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:18px;">
       <tr>
         <td width="48" valign="middle">
-          <div class="avtr">${initials}</div>
+          <table cellpadding="0" cellspacing="0" border="0" width="48">
+            <tr>
+              <td align="center" valign="middle" height="48" style="background:linear-gradient(135deg,#0EA5A4,#0891B2);border-radius:50%;color:#fff;font-size:18px;font-weight:800;">
+                ${initials}
+              </td>
+            </tr>
+          </table>
         </td>
         <td valign="middle" style="padding-left:12px;">
           <div class="mcard-name">${fullName}</div>
@@ -363,13 +361,25 @@ body{margin:0;padding:0;background:#0F172A;font-family:'Segoe UI',Arial,sans-ser
   <div class="journey">
     <div class="j-title">🗺️ Your journey — you're at Step 1 of 4</div>
     <div style="text-align:center; font-size:0; width:100%;">
-      <div style="display:inline-block; width:22%; vertical-align:top; font-size:11px;"><div class="j-dot done">✓</div><div class="j-lbl">Joined</div></div>
+      <div style="display:inline-block; width:22%; vertical-align:top; font-size:11px;">
+        <table cellpadding="0" cellspacing="0" border="0" width="30" style="margin:0 auto 5px;"><tr><td align="center" valign="middle" height="30" style="background:#0EA5A4;border-radius:50%;color:#fff;font-size:12px;font-weight:800;">✓</td></tr></table>
+        <div class="j-lbl">Joined</div>
+      </div>
       <div style="display:inline-block; width:4%; height:2px; background:#0EA5A4; vertical-align:top; margin-top:14px;"></div>
-      <div style="display:inline-block; width:22%; vertical-align:top; font-size:11px;"><div class="j-dot now">2</div><div class="j-lbl">First Session</div></div>
+      <div style="display:inline-block; width:22%; vertical-align:top; font-size:11px;">
+        <table cellpadding="0" cellspacing="0" border="0" width="30" style="margin:0 auto 5px;"><tr><td align="center" valign="middle" height="30" style="background:#FF9933;border-radius:50%;color:#fff;font-size:12px;font-weight:800;">2</td></tr></table>
+        <div class="j-lbl">First Session</div>
+      </div>
       <div style="display:inline-block; width:4%; height:2px; background:#D1D5DB; vertical-align:top; margin-top:14px;"></div>
-      <div style="display:inline-block; width:22%; vertical-align:top; font-size:11px;"><div class="j-dot next">3</div><div class="j-lbl">First Build</div></div>
+      <div style="display:inline-block; width:22%; vertical-align:top; font-size:11px;">
+        <table cellpadding="0" cellspacing="0" border="0" width="30" style="margin:0 auto 5px;"><tr><td align="center" valign="middle" height="30" style="background:#E5E7EB;border-radius:50%;color:#9CA3AF;font-size:12px;font-weight:800;">3</td></tr></table>
+        <div class="j-lbl">First Build</div>
+      </div>
       <div style="display:inline-block; width:4%; height:2px; background:#D1D5DB; vertical-align:top; margin-top:14px;"></div>
-      <div style="display:inline-block; width:22%; vertical-align:top; font-size:11px;"><div class="j-dot next">🏆</div><div class="j-lbl">Hired</div></div>
+      <div style="display:inline-block; width:22%; vertical-align:top; font-size:11px;">
+        <table cellpadding="0" cellspacing="0" border="0" width="30" style="margin:0 auto 5px;"><tr><td align="center" valign="middle" height="30" style="background:#E5E7EB;border-radius:50%;color:#9CA3AF;font-size:12px;font-weight:800;">🏆</td></tr></table>
+        <div class="j-lbl">Hired</div>
+      </div>
     </div>
   </div>
 

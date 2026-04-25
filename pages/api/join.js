@@ -139,7 +139,7 @@ body{margin:0;padding:0;background:#0F172A;font-family:'Segoe UI',Arial,sans-ser
 .mcard-bar{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#0EA5A4,#6366F1)}
 .mcard-lbl{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(14,165,164,0.75);margin-bottom:14px}
 .mcard-top{display:flex;align-items:center;margin-bottom:18px}
-.avtr{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#0EA5A4,#0891B2);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;flex-shrink:0}
+.avtr{width:48px;height:48px;line-height:48px;text-align:center;border-radius:50%;background:linear-gradient(135deg,#0EA5A4,#0891B2);font-size:18px;font-weight:800;color:#fff;}
 .mcard-info{flex:1;padding-left:12px}
 .mcard-name{font-size:17px;font-weight:800;color:#fff;margin:0 0 3px}
 .mcard-since{font-size:11px;color:rgba(255,255,255,0.38)}
@@ -179,7 +179,7 @@ body{margin:0;padding:0;background:#0F172A;font-family:'Segoe UI',Arial,sans-ser
 .j-title{font-size:13px;font-weight:700;color:#1F2937;margin:0 0 14px}
 .j-row{display:flex;align-items:center}
 .j-step{text-align:center;flex:1;min-width:0;padding:0 2px}
-.j-dot{width:30px;height:30px;border-radius:50%;margin:0 auto 5px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+.j-dot{width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;margin:0 auto 5px;font-size:12px;font-weight:800;display:block;}
 .j-dot.done{background:#0EA5A4;color:#fff}
 .j-dot.now{background:#FF9933;color:#fff}
 .j-dot.next{background:#E5E7EB;color:#9CA3AF}

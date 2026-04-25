@@ -7,7 +7,7 @@ import {
   Sparkles, Brain, MonitorPlay, GraduationCap, MessageCircle, 
   Globe, Coffee, Bot, Target, Building2, Lightbulb, 
   Users, Calendar, Trophy, UserCheck, PartyPopper,
-  Sun, Moon
+  Sun, Moon, GitBranch, Terminal, Palette, Cloud, BrainCircuit
 } from 'lucide-react'
 import styles from '../styles/Home.module.css'
 
@@ -272,13 +272,60 @@ export default function Home() {
             <h2 className={styles.h2}>Find the Path <em>That Fits You</em></h2>
             <p className={styles.sectionIntro}>No path is better than another. The best one is the one you stay consistent with.</p>
           </motion.div>
-          <div className={`${styles.cardGrid} ${styles.cardGrid3}`}>
+          
+          <h3 className={styles.categoryTitle}>Core Engineering</h3>
+          <div className={`${styles.cardGrid} ${styles.cardGrid3}`} style={{ marginBottom: '56px' }}>
             {[
               { icon:<Globe size={32}/>, title:'Web Development', diff:'Beginner-friendly', diffClass:'beginner', color:'web', why:'Visual feedback makes learning faster and satisfying.', where:'Startups, agencies, product companies', start:'HTML → CSS → JS' },
               { icon:<Coffee size={32}/>, title:'Java Backend', diff:'Intermediate', diffClass:'intermediate', color:'java', why:'Highest-paying roles in India are backend-heavy.', where:'Banks, MNCs, large-scale applications', start:'Core Java → OOP → Spring' },
               { icon:<Bot size={32}/>, title:'AI / Machine Learning', diff:'Advanced', diffClass:'advanced', color:'ai', why:'Rewards analytical and mathematical thinkers.', where:'AI startups, research, global tech firms', start:'Python → Math → ML' },
+              { icon:<BrainCircuit size={32}/>, title:'Data Structures & Algorithms', diff:'Essential', diffClass:'intermediate', color:'dsa', why:'Core foundation for product company interviews.', where:'FAANG, Top Tier Startups', start:'Arrays → Strings → Trees' },
             ].map((item, i) => (
-              <motion.div variants={fadeInUp} className={`${styles.card} ${styles.pathCard} ${styles[item.color]}`} key={i}>
+              <motion.div variants={fadeInUp} className={`${styles.card} ${styles.pathCard} ${styles[item.color]}`} key={`core-${i}`}>
+                <span className={styles.pathEmoji}>{item.icon}</span>
+                <div className={styles.pathHeader}>
+                  <h3 className={styles.cardH3}>{item.title}</h3>
+                  <span className={`${styles.difficulty} ${styles[item.diffClass]}`}>● {item.diff}</span>
+                </div>
+                <div className={styles.pathDetails}>
+                  <div className={styles.pathDetail}><span className={styles.pathDetailIcon}><Target size={16}/></span><span className={styles.pathDetailText}><strong>Start:</strong> {item.start}</span></div>
+                  <div className={styles.pathDetail}><span className={styles.pathDetailIcon}><Building2 size={16}/></span><span className={styles.pathDetailText}><strong>Used in:</strong> {item.where}</span></div>
+                  <div className={styles.pathDetail}><span className={styles.pathDetailIcon}><Lightbulb size={16}/></span><span className={styles.pathDetailText}><strong>Why this?</strong> {item.why}</span></div>
+                </div>
+                <a href="#join" className={`${styles.pathCta} ${styles[`pathCta_${item.color}`]}`}>Start this path</a>
+              </motion.div>
+            ))}
+          </div>
+
+          <h3 className={styles.categoryTitle}>Infrastructure & Dev Tools</h3>
+          <div className={`${styles.cardGrid} ${styles.cardGrid3}`} style={{ marginBottom: '56px' }}>
+            {[
+              { icon:<GitBranch size={32}/>, title:'Git & GitHub', diff:'Beginner-friendly', diffClass:'beginner', color:'git', why:'Every single developer job requires version control.', where:'Every tech company globally', start:'git init → commit → push' },
+              { icon:<Terminal size={32}/>, title:'Linux / Dev Tools', diff:'Intermediate', diffClass:'intermediate', color:'linux', why:'Servers run on Linux. You must know your way around the terminal.', where:'Backend roles, DevOps, Sysadmin', start:'ls → cd → grep → permissions' },
+              { icon:<Cloud size={32}/>, title:'Google Cloud / DevOps', diff:'Advanced', diffClass:'advanced', color:'cloud', why:'Knowing how to deploy code makes you a complete engineer.', where:'Cloud-native startups, Enterprise IT', start:'Compute Engine → Docker → CI/CD' },
+            ].map((item, i) => (
+              <motion.div variants={fadeInUp} className={`${styles.card} ${styles.pathCard} ${styles[item.color]}`} key={`tools-${i}`}>
+                <span className={styles.pathEmoji}>{item.icon}</span>
+                <div className={styles.pathHeader}>
+                  <h3 className={styles.cardH3}>{item.title}</h3>
+                  <span className={`${styles.difficulty} ${styles[item.diffClass]}`}>● {item.diff}</span>
+                </div>
+                <div className={styles.pathDetails}>
+                  <div className={styles.pathDetail}><span className={styles.pathDetailIcon}><Target size={16}/></span><span className={styles.pathDetailText}><strong>Start:</strong> {item.start}</span></div>
+                  <div className={styles.pathDetail}><span className={styles.pathDetailIcon}><Building2 size={16}/></span><span className={styles.pathDetailText}><strong>Used in:</strong> {item.where}</span></div>
+                  <div className={styles.pathDetail}><span className={styles.pathDetailIcon}><Lightbulb size={16}/></span><span className={styles.pathDetailText}><strong>Why this?</strong> {item.why}</span></div>
+                </div>
+                <a href="#join" className={`${styles.pathCta} ${styles[`pathCta_${item.color}`]}`}>Start this path</a>
+              </motion.div>
+            ))}
+          </div>
+
+          <h3 className={styles.categoryTitle}>Design & Product</h3>
+          <div className={`${styles.cardGrid} ${styles.cardGrid3}`}>
+            {[
+              { icon:<Palette size={32}/>, title:'UI/UX Design (Figma)', diff:'Beginner-friendly', diffClass:'beginner', color:'uiux', why:'Good design separates great products from average ones.', where:'Design agencies, Product startups', start:'Wireframing → Colors → Auto-layout' },
+            ].map((item, i) => (
+              <motion.div variants={fadeInUp} className={`${styles.card} ${styles.pathCard} ${styles[item.color]}`} key={`design-${i}`}>
                 <span className={styles.pathEmoji}>{item.icon}</span>
                 <div className={styles.pathHeader}>
                   <h3 className={styles.cardH3}>{item.title}</h3>

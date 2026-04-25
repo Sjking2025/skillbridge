@@ -266,6 +266,7 @@
 
 /* ── PATHS ── */
 .paths { padding: 120px 0; position: relative; }
+.categoryTitle { font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin: 0 0 24px; border-bottom: 2px solid var(--border-light); padding-bottom: 10px; }
 .pathCard { position: relative; }
 .web { border-top: 4px solid var(--teal); }
 .web:hover { box-shadow: 0 20px 40px rgba(14, 165, 164, 0.15); border-color: var(--teal); }
@@ -273,6 +274,30 @@
 .java:hover { box-shadow: 0 20px 40px rgba(255, 153, 51, 0.15); border-color: var(--saffron); }
 .ai { border-top: 4px solid var(--indigo); }
 .ai:hover { box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15); border-color: var(--indigo); }
+.dsa { border-top: 4px solid #6366F1; }
+.dsa:hover { box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15); border-color: #6366F1; }
+.git { border-top: 4px solid #1F2937; }
+.git:hover { box-shadow: 0 20px 40px rgba(31, 41, 55, 0.15); border-color: #1F2937; }
+[data-theme='dark'] .git { border-color: #4B5563; }
+.linux { border-top: 4px solid #000000; }
+.linux:hover { box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); border-color: #000000; }
+[data-theme='dark'] .linux { border-color: #E5E7EB; }
+.cloud { border-top: 4px solid #3B82F6; }
+.cloud:hover { box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15); border-color: #3B82F6; }
+.uiux { border-top: 4px solid #EC4899; }
+.uiux:hover { box-shadow: 0 20px 40px rgba(236, 72, 153, 0.15); border-color: #EC4899; }
+.dsa { border-top: 4px solid #6366F1; }
+.dsa:hover { box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15); border-color: #6366F1; }
+.git { border-top: 4px solid #1F2937; }
+.git:hover { box-shadow: 0 20px 40px rgba(31, 41, 55, 0.15); border-color: #1F2937; }
+[data-theme='dark'] .git { border-color: #4B5563; }
+.linux { border-top: 4px solid #000000; }
+.linux:hover { box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); border-color: #000000; }
+[data-theme='dark'] .linux { border-color: #E5E7EB; }
+.cloud { border-top: 4px solid #3B82F6; }
+.cloud:hover { box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15); border-color: #3B82F6; }
+.uiux { border-top: 4px solid #EC4899; }
+.uiux:hover { box-shadow: 0 20px 40px rgba(236, 72, 153, 0.15); border-color: #EC4899; }
 .pathEmoji { font-size: 2.8rem; margin-bottom: 16px; display: inline-block; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1)); position: relative; z-index: 2; }
 [data-theme='dark'] .pathEmoji { filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3)); }
 .pathHeader { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; position: relative; z-index: 2; }
@@ -297,6 +322,16 @@
 [data-theme='dark'] .pathCta_java { color: var(--saffron-light); }
 .pathCta_ai { color: var(--indigo); }
 [data-theme='dark'] .pathCta_ai { color: var(--indigo-light); }
+.pathCta_dsa { color: #4F46E5; }
+[data-theme='dark'] .pathCta_dsa { color: #818CF8; }
+.pathCta_git { color: #111827; }
+[data-theme='dark'] .pathCta_git { color: #E5E7EB; }
+.pathCta_linux { color: #000000; }
+[data-theme='dark'] .pathCta_linux { color: #F3F4F6; }
+.pathCta_cloud { color: #2563EB; }
+[data-theme='dark'] .pathCta_cloud { color: #60A5FA; }
+.pathCta_uiux { color: #DB2777; }
+[data-theme='dark'] .pathCta_uiux { color: #F472B6; }
 
 /* ── PHILOSOPHY ── */
 .philosophy {

@@ -445,7 +445,15 @@ export default function Home() {
                         <label htmlFor="path">I want to learn</label>
                         <select id="path" name="path" value={form.path} onChange={handleChange}>
                           <option value="">Choose a skill path</option>
-                          <option>Web Development</option><option>Java Backend</option><option>AI / Machine Learning</option><option>Not sure yet</option>
+                          <option>Web Development</option>
+                          <option>Java Backend</option>
+                          <option>AI / Machine Learning</option>
+                          <option>Git & GitHub</option>
+                          <option>Linux / Dev Tools</option>
+                          <option>UI/UX Design (Figma)</option>
+                          <option>Google Cloud / DevOps</option>
+                          <option>Data Structures & Algorithms</option>
+                          <option>Not sure yet</option>
                         </select>
                       </div>
                       {status === 'error' && (

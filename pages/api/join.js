@@ -24,10 +24,15 @@ export default async function handler(req, res) {
     const appointmentLink = process.env.CALENDAR_APPOINTMENT_LINK || 'https://calendar.app.google/TXNTgGhbVGhMAxPs8'
 
     const pathMeta = {
-      'Web Development':      { emoji: '🌐', color: '#0EA5A4', bg: '#E0F5F5' },
-      'Java Backend':         { emoji: '☕', color: '#E67E22', bg: '#FFF3E0' },
-      'AI / Machine Learning':{ emoji: '🤖', color: '#8E44AD', bg: '#F3E8FF' },
-      'Not sure yet':         { emoji: '🧭', color: '#6B7280', bg: '#F3F4F6' },
+      'Web Development':              { emoji: '🌐', color: '#0EA5A4', bg: '#E0F5F5' },
+      'Java Backend':                 { emoji: '☕', color: '#E67E22', bg: '#FFF3E0' },
+      'AI / Machine Learning':        { emoji: '🤖', color: '#8E44AD', bg: '#F3E8FF' },
+      'Git & GitHub':                 { emoji: '🐙', color: '#1F2937', bg: '#E5E7EB' },
+      'Linux / Dev Tools':            { emoji: '🐧', color: '#000000', bg: '#FDE047' },
+      'UI/UX Design (Figma)':         { emoji: '🎨', color: '#EC4899', bg: '#FCE7F3' },
+      'Google Cloud / DevOps':        { emoji: '☁️', color: '#3B82F6', bg: '#DBEAFE' },
+      'Data Structures & Algorithms': { emoji: '🧠', color: '#6366F1', bg: '#E0E7FF' },
+      'Not sure yet':                 { emoji: '🧭', color: '#6B7280', bg: '#F3F4F6' },
     }
     const path = pathMeta[skillPath] || pathMeta['Not sure yet']
     const initials = `${firstName.charAt(0)}${(lastName || firstName).charAt(lastName ? 0 : 1)}`.toUpperCase()

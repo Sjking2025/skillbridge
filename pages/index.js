@@ -2,6 +2,11 @@
 import Head from 'next/head'
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { 
+  Sparkles, Brain, MonitorPlay, GraduationCap, MessageCircle, 
+  Globe, Coffee, Bot, Target, Building2, Lightbulb, 
+  Users, Calendar, Trophy, UserCheck, PartyPopper 
+} from 'lucide-react'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
@@ -132,7 +137,7 @@ export default function Home() {
                     </div>
                   </div>
                   <div className={styles.hfcBody}>Understood <strong>how REST APIs actually work</strong> by building one — not by watching a tutorial.</div>
-                  <span className={`${styles.hfcTag}`}>✨ Learning by doing</span>
+                  <span className={`${styles.hfcTag}`}><Sparkles size={14} /> Learning by doing</span>
                 </motion.div>
 
                 <motion.div 
@@ -160,10 +165,10 @@ export default function Home() {
           </motion.div>
           <div className={`${styles.cardGrid} ${styles.cardGrid2}`}>
             {[
-              { left:'Memorization', right:'Understanding', emoji:'🧠', title:"You know definitions. Not thinking.", body:"Textbooks reward cramming. Interviews reward reasoning. Most students can define a linked list but can't explain why to use one over an array." },
-              { left:'Tutorial Hell', right:'Real Building', emoji:'📺', title:"You watch. You don't build.", body:"Watching 300 hours of video creates the feeling of learning. Real understanding comes from building something broken and fixing it yourself." },
-              { left:'Your Degree', right:'Your Skills', emoji:'🎓', title:"A degree gets you shortlisted. Skills get you hired.", body:"Companies don't hire certificates. They hire people who can solve problems. Your B.Tech from a tier-3 college is not the ceiling — your skills are." },
-              { left:'Fear', right:'Confidence', emoji:'💬', title:"Interview fear is just unfamiliarity.", body:"Nobody teaches you how to think out loud, handle unknown questions, or articulate your reasoning. It's a learnable skill — not a talent." },
+              { left:'Memorization', right:'Understanding', icon:<Brain size={28} color="#FFB347"/>, title:"You know definitions. Not thinking.", body:"Textbooks reward cramming. Interviews reward reasoning. Most students can define a linked list but can't explain why to use one over an array." },
+              { left:'Tutorial Hell', right:'Real Building', icon:<MonitorPlay size={28} color="#0EA5A4"/>, title:"You watch. You don't build.", body:"Watching 300 hours of video creates the feeling of learning. Real understanding comes from building something broken and fixing it yourself." },
+              { left:'Your Degree', right:'Your Skills', icon:<GraduationCap size={28} color="#818CF8"/>, title:"A degree gets you shortlisted. Skills get you hired.", body:"Companies don't hire certificates. They hire people who can solve problems. Your B.Tech from a tier-3 college is not the ceiling — your skills are." },
+              { left:'Fear', right:'Confidence', icon:<MessageCircle size={28} color="#FF6B1A"/>, title:"Interview fear is just unfamiliarity.", body:"Nobody teaches you how to think out loud, handle unknown questions, or articulate your reasoning. It's a learnable skill — not a talent." },
             ].map((item, i) => (
               <motion.div variants={fadeInUp} className={styles.card} key={i}>
                 <div className={styles.problemVs}>
@@ -172,7 +177,7 @@ export default function Home() {
                   <div className={styles.problemVsRight}>{item.right}</div>
                 </div>
                 <div className={styles.problemCard}>
-                  <div className={styles.problemIcon}>{item.emoji}</div>
+                  <div className={styles.problemIcon}>{item.icon}</div>
                   <div>
                     <h3 className={styles.cardH3}>{item.title}</h3>
                     <p className={styles.cardP}>{item.body}</p>
@@ -220,20 +225,20 @@ export default function Home() {
           </motion.div>
           <div className={`${styles.cardGrid} ${styles.cardGrid3}`}>
             {[
-              { emoji:'🌐', title:'Web Development', diff:'Beginner-friendly', diffClass:'beginner', color:'web', why:'Visual feedback makes learning faster and satisfying.', where:'Startups, agencies, product companies', start:'HTML → CSS → JS' },
-              { emoji:'☕', title:'Java Backend', diff:'Intermediate', diffClass:'intermediate', color:'java', why:'Highest-paying roles in India are backend-heavy.', where:'Banks, MNCs, large-scale applications', start:'Core Java → OOP → Spring' },
-              { emoji:'🤖', title:'AI / Machine Learning', diff:'Advanced', diffClass:'advanced', color:'ai', why:'Rewards analytical and mathematical thinkers.', where:'AI startups, research, global tech firms', start:'Python → Math → ML' },
+              { icon:<Globe size={32}/>, title:'Web Development', diff:'Beginner-friendly', diffClass:'beginner', color:'web', why:'Visual feedback makes learning faster and satisfying.', where:'Startups, agencies, product companies', start:'HTML → CSS → JS' },
+              { icon:<Coffee size={32}/>, title:'Java Backend', diff:'Intermediate', diffClass:'intermediate', color:'java', why:'Highest-paying roles in India are backend-heavy.', where:'Banks, MNCs, large-scale applications', start:'Core Java → OOP → Spring' },
+              { icon:<Bot size={32}/>, title:'AI / Machine Learning', diff:'Advanced', diffClass:'advanced', color:'ai', why:'Rewards analytical and mathematical thinkers.', where:'AI startups, research, global tech firms', start:'Python → Math → ML' },
             ].map((item, i) => (
               <motion.div variants={fadeInUp} className={`${styles.card} ${styles.pathCard} ${styles[item.color]}`} key={i}>
-                <span className={styles.pathEmoji}>{item.emoji}</span>
+                <span className={styles.pathEmoji}>{item.icon}</span>
                 <div className={styles.pathHeader}>
                   <h3 className={styles.cardH3}>{item.title}</h3>
                   <span className={`${styles.difficulty} ${styles[item.diffClass]}`}>● {item.diff}</span>
                 </div>
                 <div className={styles.pathDetails}>
-                  <div className={styles.pathDetail}><span className={styles.pathDetailIcon}>🎯</span><span className={styles.pathDetailText}><strong>Start:</strong> {item.start}</span></div>
-                  <div className={styles.pathDetail}><span className={styles.pathDetailIcon}>🏭</span><span className={styles.pathDetailText}><strong>Used in:</strong> {item.where}</span></div>
-                  <div className={styles.pathDetail}><span className={styles.pathDetailIcon}>💡</span><span className={styles.pathDetailText}><strong>Why this?</strong> {item.why}</span></div>
+                  <div className={styles.pathDetail}><span className={styles.pathDetailIcon}><Target size={16}/></span><span className={styles.pathDetailText}><strong>Start:</strong> {item.start}</span></div>
+                  <div className={styles.pathDetail}><span className={styles.pathDetailIcon}><Building2 size={16}/></span><span className={styles.pathDetailText}><strong>Used in:</strong> {item.where}</span></div>
+                  <div className={styles.pathDetail}><span className={styles.pathDetailIcon}><Lightbulb size={16}/></span><span className={styles.pathDetailText}><strong>Why this?</strong> {item.why}</span></div>
                 </div>
                 <a href="#join" className={`${styles.pathCta} ${styles[`pathCta_${item.color}`]}`}>Start this path</a>
               </motion.div>
@@ -280,7 +285,7 @@ export default function Home() {
               <div className={`${styles.card} ${styles.joinCard}`} id="join">
                 {status === 'success' ? (
                   <div className={styles.joinSuccess}>
-                    <div className={styles.successEmoji}>🎉</div>
+                    <div className={styles.successEmoji}><PartyPopper size={48} color="#0EA5A4"/></div>
                     <h3>You&apos;re in! Welcome aboard.</h3>
                     <p>Check your inbox — we&apos;ve sent you a premium invite with your <strong>Daily Coding Practice</strong> (CS02) calendar invite. See you at 8 PM IST!</p>
                   </div>
@@ -352,10 +357,10 @@ export default function Home() {
             </motion.div>
             <motion.div variants={fadeInUp} className={styles.communityHighlights}>
               {[
-                { icon:'👥', num:'2,400+', label:'Students across 180+ colleges' },
-                { icon:'📅', num:'Daily', label:'CS02 Coding Practice at 8 PM IST' },
-                { icon:'🏆', num:'Weekly', label:'Mock interview & peer feedback' },
-                { icon:'🧑‍🏫', num:'Mentors', label:'Industry pros who were once like you' },
+                { icon:<Users size={24}/>, num:'2,400+', label:'Students across 180+ colleges' },
+                { icon:<Calendar size={24}/>, num:'Daily', label:'CS02 Coding Practice at 8 PM IST' },
+                { icon:<Trophy size={24}/>, num:'Weekly', label:'Mock interview & peer feedback' },
+                { icon:<UserCheck size={24}/>, num:'Mentors', label:'Industry pros who were once like you' },
               ].map((item, i) => (
                 <div className={styles.cscCard} key={i}>
                   <div className={styles.cscIcon}>{item.icon}</div>

@@ -5,6 +5,7 @@
 // 4. Patches Google Calendar event with new attendee
 
 import { getOAuth2Client, getGmail, getSheets, getCalendar } from '../../lib/googleClient'
+import { buildEmail } from '../../lib/emailTemplate'
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
@@ -49,7 +50,15 @@ export default async function handler(req, res) {
 
     // ── 2. RICH EMAIL ────────────────────────────────────────────────────
     const gmail = getGmail(auth)
-    const emailHtml = buildEmail({ firstName, fullName, email, college, year, level, path, skillPath, initials, joinedAt, meetLink, appointmentLink })
+    const emailHtml = buildEmail({
+      firstName,
+      fullName,
+      college,
+      year,
+      level,
+      skillPath,
+      meetLink
+    })
 
     const icsContent = buildICS({ fullName, email, meetLink, appointmentLink, senderEmail: process.env.SENDER_EMAIL })
 
@@ -105,248 +114,7 @@ export default async function handler(req, res) {
   }
 }
 
-// ── Email builder ────────────────────────────────────────────────────────────
-function buildEmail({ firstName, fullName, email, college, year, level, path, skillPath, initials, joinedAt, meetLink, appointmentLink }) {
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Welcome to SkillBridge</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;padding:0;background:#0F172A;font-family:'Segoe UI',Arial,sans-serif;-webkit-font-smoothing:antialiased}
-.wrap{background:#0F172A;padding:40px 16px}
-.outer{max-width:600px;margin:0 auto}
-.topbar{height:3px;background:linear-gradient(90deg,#0EA5A4,#6366F1,#FF9933);border-radius:3px 3px 0 0}
-.hdr{background:linear-gradient(145deg,#0A1628 0%,#0D2137 60%,#0A2E2E 100%);padding:44px 44px 36px;text-align:center;border:1px solid rgba(14,165,164,0.18);border-top:none}
-.logo-row{display:inline-flex;align-items:center;gap:10px;margin-bottom:24px}
-.logo-box{width:40px;height:40px;background:linear-gradient(135deg,#0EA5A4,#0891B2);border-radius:11px;display:inline-flex;align-items:center;justify-content:center;font-size:19px;font-weight:800;color:#fff;font-style:italic}
-.logo-text{font-size:21px;font-weight:700;color:#fff;letter-spacing:-0.4px}
-.logo-text span{color:#0EA5A4}
-.hdr-emoji{font-size:50px;display:block;margin:0 0 14px;line-height:1}
-.hdr h1{font-size:28px;font-weight:800;color:#fff;margin:0 0 10px;line-height:1.2;letter-spacing:-0.5px}
-.hdr h1 em{color:#0EA5A4;font-style:normal}
-.hdr-sub{font-size:15px;color:rgba(255,255,255,0.55);margin:0;line-height:1.6}
-.dots{display:flex;justify-content:center;gap:7px;margin-top:22px}
-.dot{width:7px;height:7px;border-radius:50%}
-.body{background:#fff;padding:40px 44px;border-left:1px solid #E5E7EB;border-right:1px solid #E5E7EB}
-.greeting{font-size:16px;color:#374151;line-height:1.75;margin:0 0 28px}
-.greeting strong{color:#0EA5A4;font-weight:700}
-
-/* member card */
-.mcard{background:linear-gradient(145deg,#0A1628,#0D2137);border-radius:14px;padding:24px 28px;margin-bottom:26px;border:1px solid rgba(14,165,164,0.22);position:relative;overflow:hidden}
-.mcard-bar{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#0EA5A4,#6366F1)}
-.mcard-lbl{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(14,165,164,0.75);margin-bottom:14px}
-.mcard-top{display:flex;align-items:center;margin-bottom:18px}
-.avtr{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#0EA5A4,#0891B2);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;flex-shrink:0}
-.mcard-info{flex:1;padding-left:12px}
-.mcard-name{font-size:17px;font-weight:800;color:#fff;margin:0 0 3px}
-.mcard-since{font-size:11px;color:rgba(255,255,255,0.38)}
-.mcard-badge{background:rgba(14,165,164,0.15);border:1px solid rgba(14,165,164,0.3);color:#5EEAD4;font-size:11px;font-weight:700;padding:4px 11px;border-radius:100px;white-space:nowrap;margin-left:8px}
-.mdetail-row{display:flex;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
-.mdetail-row:last-child{border:none}
-.mdetail-lbl{font-size:12px;color:rgba(255,255,255,0.38);width:38%;font-weight:500}
-.mdetail-val{font-size:12px;color:rgba(255,255,255,0.82);font-weight:600;flex:1}
-.ppill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:700;background:${path.bg};color:${path.color}}
-
-/* session */
-.scard{background:linear-gradient(135deg,#FF6B1A,#FF9933);border-radius:14px;padding:24px 28px;margin-bottom:24px;position:relative;overflow:hidden}
-.scard::after{content:'📅';position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:48px;opacity:0.12}
-.scard-lbl{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:6px}
-.scard-title{font-size:20px;font-weight:800;color:#fff;margin:0 0 5px;letter-spacing:-0.3px}
-.scard-meta{font-size:13px;color:rgba(255,255,255,0.82);margin:0 0 18px;line-height:1.5}
-.scard-meta strong{color:#fff}
-.btn-meet{display:inline-block;background:#fff;color:#CC7A29;text-decoration:none;font-size:13px;font-weight:800;padding:10px 20px;border-radius:9px;margin-right:8px;margin-bottom:6px}
-.btn-cal{display:inline-block;background:rgba(255,255,255,0.18);border:1.5px solid rgba(255,255,255,0.45);color:#fff;text-decoration:none;font-size:13px;font-weight:700;padding:10px 20px;border-radius:9px;margin-bottom:6px}
-
-/* what next */
-.sec-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#9CA3AF;margin:0 0 16px}
-.expect-item{display:flex;align-items:flex-start;margin-bottom:14px;gap:13px}
-.e-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
-.e-title{font-size:13px;font-weight:700;color:#1F2937;margin:0 0 3px}
-.e-desc{font-size:12px;color:#6B7280;line-height:1.55;margin:0}
-
-/* phi */
-.phi{background:#F8FAFC;border:1px solid #E5E7EB;border-radius:12px;padding:20px 22px;margin-bottom:26px}
-.phi-inner{display:flex;gap:0}
-.phi-item{flex:1;text-align:center;padding:0 6px}
-.phi-num{font-size:26px;font-weight:800;color:#E5E7EB;display:block;line-height:1;margin-bottom:5px}
-.phi-lbl{font-size:10px;color:#6B7280;font-weight:600;line-height:1.4}
-
-/* journey */
-.journey{background:linear-gradient(135deg,#E0F5F5,#EEF2FF);border-radius:12px;padding:20px 22px;margin-bottom:26px}
-.j-title{font-size:13px;font-weight:700;color:#1F2937;margin:0 0 14px}
-.j-row{display:flex;align-items:center}
-.j-step{text-align:center;flex:1}
-.j-dot{width:30px;height:30px;border-radius:50%;margin:0 auto 5px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
-.j-dot.done{background:#0EA5A4;color:#fff}
-.j-dot.now{background:#FF9933;color:#fff}
-.j-dot.next{background:#E5E7EB;color:#9CA3AF}
-.j-lbl{font-size:10px;font-weight:600;color:#6B7280}
-.j-line{flex:1;height:2px;background:#D1D5DB;max-width:28px}
-.j-line.done{background:#0EA5A4}
-
-/* sig */
-.sig{border-top:1px solid #E5E7EB;padding-top:24px;margin-top:4px}
-.sig-pre{font-size:14px;color:#374151;margin:0 0 6px}
-.sig-name{font-size:19px;font-weight:800;color:#1F2937;margin:0 0 3px;letter-spacing:-0.3px}
-.sig-role{font-size:12px;color:#9CA3AF;margin:0 0 14px}
-.sig-links{display:flex;gap:16px;flex-wrap:wrap}
-.sig-link{font-size:12px;font-weight:600;color:#0EA5A4;text-decoration:none}
-
-/* footer */
-.ftr{background:#0A1628;border:1px solid rgba(14,165,164,0.13);border-top:none;padding:22px 44px;border-radius:0 0 14px 14px;text-align:center}
-.ftr-tag{font-size:13px;font-weight:700;display:block;margin-bottom:8px;background:linear-gradient(90deg,#0EA5A4,#6366F1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.ftr-note{font-size:11px;color:rgba(255,255,255,0.28);line-height:1.6}
-.ftr-note a{color:rgba(14,165,164,0.6);text-decoration:none}
-</style>
-</head>
-<body>
-<div class="wrap">
-<div class="outer">
-
-<div class="topbar"></div>
-
-<div class="hdr">
-  <div class="logo-row">
-    <div class="logo-box">S</div>
-    <span class="logo-text">Skill<span>Bridge</span></span>
-  </div>
-  <span class="hdr-emoji">🎉</span>
-  <h1>Welcome aboard,<br/><em>${firstName}!</em></h1>
-  <p class="hdr-sub">You just made the most important decision of your tech journey.</p>
-  <div class="dots">
-    <div class="dot" style="background:#0EA5A4"></div>
-    <div class="dot" style="background:#FF9933"></div>
-    <div class="dot" style="background:#6366F1"></div>
-    <div class="dot" style="background:#0EA5A4"></div>
-    <div class="dot" style="background:#FF9933"></div>
-  </div>
-</div>
-
-<div class="body">
-
-  <p class="greeting">
-    Hey <strong>${firstName}</strong> 👋 —<br/><br/>
-    You've just joined <strong>2,400+ students</strong> from tier-2 and tier-3 colleges across India
-    who are done watching tutorials and started building real things. No spoon-feeding.
-    No copy-paste. Just real thinking, real mistakes, and real growth.<br/><br/>
-    Here's everything you need to get started right now.
-  </p>
-
-  <!-- MEMBER CARD -->
-  <div class="mcard">
-    <div class="mcard-bar"></div>
-    <div class="mcard-lbl">✦ Your SkillBridge Profile</div>
-    <div class="mcard-top">
-      <div class="avtr">${initials}</div>
-      <div class="mcard-info">
-        <div class="mcard-name">${fullName}</div>
-        <div class="mcard-since">Member since ${joinedAt}</div>
-      </div>
-      <div class="mcard-badge">Active Member</div>
-    </div>
-    <div class="mdetail-row"><div class="mdetail-lbl">College</div><div class="mdetail-val">${college}</div></div>
-    <div class="mdetail-row"><div class="mdetail-lbl">Year</div><div class="mdetail-val">${year}</div></div>
-    <div class="mdetail-row"><div class="mdetail-lbl">Level</div><div class="mdetail-val">${level}</div></div>
-    <div class="mdetail-row"><div class="mdetail-lbl">Skill Path</div><div class="mdetail-val"><span class="ppill">${path.emoji} ${skillPath || 'Exploring'}</span></div></div>
-  </div>
-
-  <!-- SESSION CARD -->
-  <div class="scard">
-    <div class="scard-lbl">Your Daily Live Session</div>
-    <div class="scard-title">CS02 — Daily Coding Practice</div>
-    <div class="scard-meta">Every day at <strong>8:00 PM IST</strong> on Google Meet &nbsp;·&nbsp; Hosted by MrSJ<br/>Show up consistently. That's 80% of the battle.</div>
-    <a href="${meetLink}" class="btn-meet">▶ Join Google Meet</a>
-    <a href="${appointmentLink}" class="btn-cal">📅 Add to Calendar</a>
-  </div>
-
-  <!-- WHAT NEXT -->
-  <p class="sec-title">What happens next</p>
-
-  <div class="expect-item">
-    <div class="e-icon" style="background:#E0F5F5">📱</div>
-    <div>
-      <div class="e-title">WhatsApp / Discord Invite — within 24 hours</div>
-      <div class="e-desc">We'll add you to your skill-specific peer group. Small groups of 6–8 students at the same level — no big chaotic chats.</div>
-    </div>
-  </div>
-  <div class="expect-item">
-    <div class="e-icon" style="background:#FFF3E0">🎯</div>
-    <div>
-      <div class="e-title">First Task — Join tonight's 8 PM session</div>
-      <div class="e-desc">Don't wait for the "right time". Your first action is to show up to Daily Coding Practice. No preparation needed. Just come.</div>
-    </div>
-  </div>
-  <div class="expect-item">
-    <div class="e-icon" style="background:#EEF2FF">🏆</div>
-    <div>
-      <div class="e-title">Weekly Mock Interview Night</div>
-      <div class="e-desc">Every week: structured mock interviews with peer feedback. Practice thinking out loud — the most underrated skill in tech hiring.</div>
-    </div>
-  </div>
-  <div class="expect-item">
-    <div class="e-icon" style="background:#F0FDF4">🧑‍🏫</div>
-    <div>
-      <div class="e-title">Mentor Access</div>
-      <div class="e-desc">Industry professionals who came from exactly where you are. Real questions get real answers. No gatekeeping.</div>
-    </div>
-  </div>
-
-  <!-- PHILOSOPHY -->
-  <p class="sec-title" style="margin-top:28px">The SkillBridge method</p>
-  <div class="phi">
-    <div class="phi-inner">
-      <div class="phi-item"><span class="phi-num">01</span><span class="phi-lbl">Learn by Making Mistakes</span></div>
-      <div class="phi-item"><span class="phi-num">02</span><span class="phi-lbl">Ask WHY, Not Just HOW</span></div>
-      <div class="phi-item"><span class="phi-num">03</span><span class="phi-lbl">No Spoon-Feeding</span></div>
-      <div class="phi-item"><span class="phi-num">04</span><span class="phi-lbl">Thinking Over Memorization</span></div>
-    </div>
-  </div>
-
-  <!-- JOURNEY -->
-  <div class="journey">
-    <div class="j-title">🗺️ Your journey — you're at Step 1 of 4</div>
-    <div class="j-row">
-      <div class="j-step"><div class="j-dot done">✓</div><div class="j-lbl">Joined</div></div>
-      <div class="j-line done"></div>
-      <div class="j-step"><div class="j-dot now">2</div><div class="j-lbl">First Session</div></div>
-      <div class="j-line"></div>
-      <div class="j-step"><div class="j-dot next">3</div><div class="j-lbl">First Build</div></div>
-      <div class="j-line"></div>
-      <div class="j-step"><div class="j-dot next">🏆</div><div class="j-lbl">Hired</div></div>
-    </div>
-  </div>
-
-  <!-- SIGNATURE -->
-  <div class="sig">
-    <p class="sig-pre">With purpose,</p>
-    <p class="sig-name">Sanjay R</p>
-    <p class="sig-role">Founder, SkillBridge &nbsp;·&nbsp; Chennai, India</p>
-    <div class="sig-links">
-      <a href="mailto:sanjayias91@gmail.com" class="sig-link">✉ sanjayias91@gmail.com</a>
-      <a href="${meetLink}" class="sig-link">📹 Google Meet</a>
-      <a href="${appointmentLink}" class="sig-link">📅 Book a slot</a>
-    </div>
-  </div>
-
-</div>
-
-<div class="ftr">
-  <span class="ftr-tag">Bridge the gap. Own your future.</span>
-  <p class="ftr-note">
-    SkillBridge is a free, non-profit community. No spam, no fees, ever.<br/>
-    You received this because you signed up at <a href="https://skillbridge.vercel.app">skillbridge.vercel.app</a><br/>
-    <a href="mailto:sanjayias91@gmail.com?subject=Unsubscribe">Unsubscribe</a>
-  </p>
-</div>
-
-</div>
-</div>
-</body>
-</html>`
-}
+// (Email builder has been moved to lib/emailTemplate.js)
 
 // ── ICS builder ──────────────────────────────────────────────────────────────
 function buildICS({ fullName, email, meetLink, appointmentLink, senderEmail }) {

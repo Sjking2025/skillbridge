@@ -121,7 +121,7 @@ body{margin:0;padding:0;background:#0F172A;font-family:'Segoe UI',Arial,sans-ser
 .topbar{height:3px;background:linear-gradient(90deg,#0EA5A4,#6366F1,#FF9933);border-radius:3px 3px 0 0}
 .hdr{background:linear-gradient(145deg,#0A1628 0%,#0D2137 60%,#0A2E2E 100%);padding:44px 44px 36px;text-align:center;border:1px solid rgba(14,165,164,0.18);border-top:none}
 .logo-row{display:inline-flex;align-items:center;gap:10px;margin-bottom:24px}
-.logo-box{width:40px;height:40px;background:linear-gradient(135deg,#0EA5A4,#0891B2);border-radius:11px;display:inline-flex;align-items:center;justify-content:center;font-size:19px;font-weight:800;color:#fff;font-style:italic}
+.logo-box{width:40px;height:40px;min-width:40px;flex-shrink:0;background:linear-gradient(135deg,#0EA5A4,#0891B2);border-radius:11px;display:inline-flex;align-items:center;justify-content:center;font-size:19px;font-weight:800;color:#fff;font-style:italic}
 .logo-text{font-size:21px;font-weight:700;color:#fff;letter-spacing:-0.4px}
 .logo-text span{color:#0EA5A4}
 .hdr-emoji{font-size:50px;display:block;margin:0 0 14px;line-height:1}
@@ -143,11 +143,11 @@ body{margin:0;padding:0;background:#0F172A;font-family:'Segoe UI',Arial,sans-ser
 .mcard-info{flex:1;padding-left:12px}
 .mcard-name{font-size:17px;font-weight:800;color:#fff;margin:0 0 3px}
 .mcard-since{font-size:11px;color:rgba(255,255,255,0.38)}
-.mcard-badge{background:rgba(14,165,164,0.15);border:1px solid rgba(14,165,164,0.3);color:#5EEAD4;font-size:11px;font-weight:700;padding:4px 11px;border-radius:100px;white-space:nowrap;margin-left:8px}
+.mcard-badge{background:rgba(14,165,164,0.15);border:1px solid rgba(14,165,164,0.3);color:#5EEAD4;font-size:11px;font-weight:700;padding:4px 11px;border-radius:100px;white-space:nowrap;margin-left:auto;align-self:center}
 .mdetail-row{display:flex;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
 .mdetail-row:last-child{border:none}
 .mdetail-lbl{font-size:12px;color:rgba(255,255,255,0.38);width:38%;font-weight:500}
-.mdetail-val{font-size:12px;color:rgba(255,255,255,0.82);font-weight:600;flex:1}
+.mdetail-val{font-size:12px;color:rgba(255,255,255,0.82);font-weight:600;flex:1;text-align:right}
 .ppill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:700;background:${path.bg};color:${path.color}}
 
 /* session */
@@ -178,7 +178,7 @@ body{margin:0;padding:0;background:#0F172A;font-family:'Segoe UI',Arial,sans-ser
 .journey{background:linear-gradient(135deg,#E0F5F5,#EEF2FF);border-radius:12px;padding:20px 22px;margin-bottom:26px}
 .j-title{font-size:13px;font-weight:700;color:#1F2937;margin:0 0 14px}
 .j-row{display:flex;align-items:center}
-.j-step{text-align:center;flex:1}
+.j-step{text-align:center;flex:1;min-width:0;padding:0 2px}
 .j-dot{width:30px;height:30px;border-radius:50%;margin:0 auto 5px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
 .j-dot.done{background:#0EA5A4;color:#fff}
 .j-dot.now{background:#FF9933;color:#fff}
@@ -266,28 +266,28 @@ body{margin:0;padding:0;background:#0F172A;font-family:'Segoe UI',Arial,sans-ser
   <p class="sec-title">What happens next</p>
 
   <div class="expect-item">
-    <div class="e-icon" style="background:#E0F5F5">📱</div>
+    <div class="e-icon" style="background:#E0F5F5"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" width="20" height="20" alt="WhatsApp" style="display:block"/></div>
     <div>
       <div class="e-title">WhatsApp / Discord Invite — within 24 hours</div>
       <div class="e-desc">We'll add you to your skill-specific peer group. Small groups of 6–8 students at the same level — no big chaotic chats.</div>
     </div>
   </div>
   <div class="expect-item">
-    <div class="e-icon" style="background:#FFF3E0">🎯</div>
+    <div class="e-icon" style="background:#FFF3E0"><img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" width="20" height="20" alt="Target" style="display:block"/></div>
     <div>
       <div class="e-title">First Task — Join tonight's 8 PM session</div>
       <div class="e-desc">Don't wait for the "right time". Your first action is to show up to Daily Coding Practice. No preparation needed. Just come.</div>
     </div>
   </div>
   <div class="expect-item">
-    <div class="e-icon" style="background:#EEF2FF">🏆</div>
+    <div class="e-icon" style="background:#EEF2FF"><img src="https://cdn-icons-png.flaticon.com/512/616/616490.png" width="20" height="20" alt="Trophy" style="display:block"/></div>
     <div>
       <div class="e-title">Weekly Mock Interview Night</div>
       <div class="e-desc">Every week: structured mock interviews with peer feedback. Practice thinking out loud — the most underrated skill in tech hiring.</div>
     </div>
   </div>
   <div class="expect-item">
-    <div class="e-icon" style="background:#F0FDF4">🧑‍🏫</div>
+    <div class="e-icon" style="background:#F0FDF4"><img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" width="20" height="20" alt="Mentor" style="display:block"/></div>
     <div>
       <div class="e-title">Mentor Access</div>
       <div class="e-desc">Industry professionals who came from exactly where you are. Real questions get real answers. No gatekeeping.</div>

@@ -209,10 +209,20 @@ body{margin:0;padding:0;background:#0F172A;font-family:'Segoe UI',Arial,sans-ser
 <div class="topbar"></div>
 
 <div class="hdr">
-  <div class="logo-row">
-    <div class="logo-box">S</div>
-    <span class="logo-text">Skill<span>Bridge</span></span>
-  </div>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:24px;">
+    <tr>
+      <td align="center">
+        <table cellpadding="0" cellspacing="0" border="0" style="display:inline-table;">
+          <tr>
+            <td valign="middle" width="40" height="40" align="center" style="background:linear-gradient(135deg,#0EA5A4,#0891B2);border-radius:11px;font-size:19px;font-weight:800;color:#fff;font-style:italic;">S</td>
+            <td valign="middle" style="padding-left:10px;">
+              <span class="logo-text">Skill<span>Bridge</span></span>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
   <span class="hdr-emoji">🎉</span>
   <h1>Welcome aboard,<br/><em>${firstName}!</em></h1>
   <p class="hdr-sub">You just made the most important decision of your tech journey.</p>
@@ -239,18 +249,38 @@ body{margin:0;padding:0;background:#0F172A;font-family:'Segoe UI',Arial,sans-ser
   <div class="mcard">
     <div class="mcard-bar"></div>
     <div class="mcard-lbl">✦ Your SkillBridge Profile</div>
-    <div class="mcard-top">
-      <div class="avtr">${initials}</div>
-      <div class="mcard-info">
-        <div class="mcard-name">${fullName}</div>
-        <div class="mcard-since">Member since ${joinedAt}</div>
-      </div>
-      <div class="mcard-badge">Active Member</div>
-    </div>
-    <div class="mdetail-row"><div class="mdetail-lbl">College</div><div class="mdetail-val">${college}</div></div>
-    <div class="mdetail-row"><div class="mdetail-lbl">Year</div><div class="mdetail-val">${year}</div></div>
-    <div class="mdetail-row"><div class="mdetail-lbl">Level</div><div class="mdetail-val">${level}</div></div>
-    <div class="mdetail-row"><div class="mdetail-lbl">Skill Path</div><div class="mdetail-val"><span class="ppill">${path.emoji} ${skillPath || 'Exploring'}</span></div></div>
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:18px;">
+      <tr>
+        <td width="48" valign="middle">
+          <div class="avtr">${initials}</div>
+        </td>
+        <td valign="middle" style="padding-left:12px;">
+          <div class="mcard-name">${fullName}</div>
+          <div class="mcard-since">Member since ${joinedAt}</div>
+        </td>
+        <td valign="middle" align="right">
+          <div class="mcard-badge" style="display:inline-block;margin:0;">Active Member</div>
+        </td>
+      </tr>
+    </table>
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td class="mdetail-lbl" style="padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05);width:38%;">College</td>
+        <td class="mdetail-val" align="right" style="padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05);text-align:right;">${college}</td>
+      </tr>
+      <tr>
+        <td class="mdetail-lbl" style="padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05);width:38%;">Year</td>
+        <td class="mdetail-val" align="right" style="padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05);text-align:right;">${year}</td>
+      </tr>
+      <tr>
+        <td class="mdetail-lbl" style="padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05);width:38%;">Level</td>
+        <td class="mdetail-val" align="right" style="padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05);text-align:right;">${level}</td>
+      </tr>
+      <tr>
+        <td class="mdetail-lbl" style="padding:4px 0;width:38%;">Skill Path</td>
+        <td class="mdetail-val" align="right" style="padding:4px 0;text-align:right;"><span class="ppill" style="display:inline-block;">${path.emoji} ${skillPath || 'Exploring'}</span></td>
+      </tr>
+    </table>
   </div>
 
   <!-- SESSION CARD -->
@@ -265,34 +295,58 @@ body{margin:0;padding:0;background:#0F172A;font-family:'Segoe UI',Arial,sans-ser
   <!-- WHAT NEXT -->
   <p class="sec-title">What happens next</p>
 
-  <div class="expect-item">
-    <div class="e-icon" style="background:#E0F5F5"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" width="20" height="20" alt="WhatsApp" style="display:block"/></div>
-    <div>
-      <div class="e-title">WhatsApp / Discord Invite — within 24 hours</div>
-      <div class="e-desc">We'll add you to your skill-specific peer group. Small groups of 6–8 students at the same level — no big chaotic chats.</div>
-    </div>
-  </div>
-  <div class="expect-item">
-    <div class="e-icon" style="background:#FFF3E0"><img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" width="20" height="20" alt="Target" style="display:block"/></div>
-    <div>
-      <div class="e-title">First Task — Join tonight's 8 PM session</div>
-      <div class="e-desc">Don't wait for the "right time". Your first action is to show up to Daily Coding Practice. No preparation needed. Just come.</div>
-    </div>
-  </div>
-  <div class="expect-item">
-    <div class="e-icon" style="background:#EEF2FF"><img src="https://cdn-icons-png.flaticon.com/512/616/616490.png" width="20" height="20" alt="Trophy" style="display:block"/></div>
-    <div>
-      <div class="e-title">Weekly Mock Interview Night</div>
-      <div class="e-desc">Every week: structured mock interviews with peer feedback. Practice thinking out loud — the most underrated skill in tech hiring.</div>
-    </div>
-  </div>
-  <div class="expect-item">
-    <div class="e-icon" style="background:#F0FDF4"><img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" width="20" height="20" alt="Mentor" style="display:block"/></div>
-    <div>
-      <div class="e-title">Mentor Access</div>
-      <div class="e-desc">Industry professionals who came from exactly where you are. Real questions get real answers. No gatekeeping.</div>
-    </div>
-  </div>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:14px;">
+    <tr>
+      <td width="38" valign="top">
+        <div style="background:#E0F5F5; width:38px; height:38px; border-radius:11px; text-align:center;">
+          <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" width="20" height="20" alt="WhatsApp" style="display:inline-block; vertical-align:middle; margin-top:9px;"/>
+        </div>
+      </td>
+      <td valign="top" style="padding-left:13px;">
+        <div class="e-title">WhatsApp / Discord Invite — within 24 hours</div>
+        <div class="e-desc">We'll add you to your skill-specific peer group. Small groups of 6–8 students at the same level — no big chaotic chats.</div>
+      </td>
+    </tr>
+  </table>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:14px;">
+    <tr>
+      <td width="38" valign="top">
+        <div style="background:#FFF3E0; width:38px; height:38px; border-radius:11px; text-align:center;">
+          <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" width="20" height="20" alt="Target" style="display:inline-block; vertical-align:middle; margin-top:9px;"/>
+        </div>
+      </td>
+      <td valign="top" style="padding-left:13px;">
+        <div class="e-title">First Task — Join tonight's 8 PM session</div>
+        <div class="e-desc">Don't wait for the "right time". Your first action is to show up to Daily Coding Practice. No preparation needed. Just come.</div>
+      </td>
+    </tr>
+  </table>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:14px;">
+    <tr>
+      <td width="38" valign="top">
+        <div style="background:#EEF2FF; width:38px; height:38px; border-radius:11px; text-align:center;">
+          <img src="https://cdn-icons-png.flaticon.com/512/616/616490.png" width="20" height="20" alt="Trophy" style="display:inline-block; vertical-align:middle; margin-top:9px;"/>
+        </div>
+      </td>
+      <td valign="top" style="padding-left:13px;">
+        <div class="e-title">Weekly Mock Interview Night</div>
+        <div class="e-desc">Every week: structured mock interviews with peer feedback. Practice thinking out loud — the most underrated skill in tech hiring.</div>
+      </td>
+    </tr>
+  </table>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:14px;">
+    <tr>
+      <td width="38" valign="top">
+        <div style="background:#F0FDF4; width:38px; height:38px; border-radius:11px; text-align:center;">
+          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" width="20" height="20" alt="Mentor" style="display:inline-block; vertical-align:middle; margin-top:9px;"/>
+        </div>
+      </td>
+      <td valign="top" style="padding-left:13px;">
+        <div class="e-title">Mentor Access</div>
+        <div class="e-desc">Industry professionals who came from exactly where you are. Real questions get real answers. No gatekeeping.</div>
+      </td>
+    </tr>
+  </table>
 
   <!-- PHILOSOPHY -->
   <p class="sec-title" style="margin-top:28px">The SkillBridge method</p>
@@ -308,14 +362,14 @@ body{margin:0;padding:0;background:#0F172A;font-family:'Segoe UI',Arial,sans-ser
   <!-- JOURNEY -->
   <div class="journey">
     <div class="j-title">🗺️ Your journey — you're at Step 1 of 4</div>
-    <div class="j-row">
-      <div class="j-step"><div class="j-dot done">✓</div><div class="j-lbl">Joined</div></div>
-      <div class="j-line done"></div>
-      <div class="j-step"><div class="j-dot now">2</div><div class="j-lbl">First Session</div></div>
-      <div class="j-line"></div>
-      <div class="j-step"><div class="j-dot next">3</div><div class="j-lbl">First Build</div></div>
-      <div class="j-line"></div>
-      <div class="j-step"><div class="j-dot next">🏆</div><div class="j-lbl">Hired</div></div>
+    <div style="text-align:center; font-size:0; width:100%;">
+      <div style="display:inline-block; width:22%; vertical-align:top; font-size:11px;"><div class="j-dot done">✓</div><div class="j-lbl">Joined</div></div>
+      <div style="display:inline-block; width:4%; height:2px; background:#0EA5A4; vertical-align:top; margin-top:14px;"></div>
+      <div style="display:inline-block; width:22%; vertical-align:top; font-size:11px;"><div class="j-dot now">2</div><div class="j-lbl">First Session</div></div>
+      <div style="display:inline-block; width:4%; height:2px; background:#D1D5DB; vertical-align:top; margin-top:14px;"></div>
+      <div style="display:inline-block; width:22%; vertical-align:top; font-size:11px;"><div class="j-dot next">3</div><div class="j-lbl">First Build</div></div>
+      <div style="display:inline-block; width:4%; height:2px; background:#D1D5DB; vertical-align:top; margin-top:14px;"></div>
+      <div style="display:inline-block; width:22%; vertical-align:top; font-size:11px;"><div class="j-dot next">🏆</div><div class="j-lbl">Hired</div></div>
     </div>
   </div>
 

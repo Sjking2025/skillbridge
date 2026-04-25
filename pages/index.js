@@ -1,6 +1,6 @@
 // pages/index.js
 import Head from 'next/head'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { useTheme } from 'next-themes'
 import { 
@@ -33,6 +33,29 @@ const ThemeToggle = () => {
     </button>
   )
 }
+
+const SpotlightCard = ({ children, className }) => {
+  const cardRef = useRef(null)
+  
+  const handleMouseMove = (e) => {
+    if (!cardRef.current) return
+    const rect = cardRef.current.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    cardRef.current.style.setProperty("--mouse-x", `${x}px`)
+    cardRef.current.style.setProperty("--mouse-y", `${y}px`)
+  }
+
+  return (
+    <div className={styles.spotlightWrapper} ref={cardRef} onMouseMove={handleMouseMove}>
+      <div className={`${styles.scoopCornersMask} ${className}`}>
+        {children}
+        <div className={styles.spotlightGlow} />
+      </div>
+    </div>
+  )
+}
+
 
 
 export default function Home() {
@@ -291,10 +314,14 @@ export default function Home() {
               { num:'03', title:'No Spoon-Feeding', body:"The discomfort of not-knowing is where real learning lives. We sit in it together." },
               { num:'04', title:'Thinking > Memory', body:"We want you to build the confidence to arrive at your own answers under pressure." },
             ].map((item, i) => (
-              <motion.div variants={fadeInUp} className={styles.phiCard} key={i}>
-                <span className={styles.phiNum}>{item.num}</span>
-                <h3 className={styles.phiCardH3}>{item.title}</h3>
-                <p className={styles.phiCardP}>{item.body}</p>
+              <motion.div variants={fadeInUp} key={i}>
+                <SpotlightCard className={styles.phiCard}>
+                  <div className={styles.phiCardInner}>
+                    <span className={styles.phiNum}>{item.num}</span>
+                    <h3 className={styles.phiCardH3}>{item.title}</h3>
+                    <p className={styles.phiCardP}>{item.body}</p>
+                  </div>
+                </SpotlightCard>
               </motion.div>
             ))}
           </div>
@@ -333,16 +360,20 @@ export default function Home() {
                 avatarClass: "avatarSaffron"
               }
             ].map((item, i) => (
-              <motion.div variants={fadeInUp} className={styles.testiCard} key={i}>
-                <div className={styles.testiQuoteMark}>&ldquo;</div>
-                <p className={styles.testiText}>{item.quote}</p>
-                <div className={styles.testiAuthor}>
-                  <div className={`${styles.testiAvatar} ${styles[item.avatarClass]}`}>{item.initials}</div>
-                  <div>
-                    <div className={styles.testiName}>{item.name}</div>
-                    <div className={styles.testiDetail}>{item.detail}</div>
+              <motion.div variants={fadeInUp} key={i}>
+                <SpotlightCard className={styles.testiCard}>
+                  <div className={styles.testiCardInner}>
+                    <div className={styles.testiQuoteMark}>&ldquo;</div>
+                    <p className={styles.testiText}>{item.quote}</p>
+                    <div className={styles.testiAuthor}>
+                      <div className={`${styles.testiAvatar} ${styles[item.avatarClass]}`}>{item.initials}</div>
+                      <div>
+                        <div className={styles.testiName}>{item.name}</div>
+                        <div className={styles.testiDetail}>{item.detail}</div>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </SpotlightCard>
               </motion.div>
             ))}
           </div>

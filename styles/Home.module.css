@@ -312,9 +312,63 @@
 .phiHeader { position: relative; z-index: 1; }
 .phiHeader .h2 em { background: linear-gradient(90deg, #FFB347, var(--saffron)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .phiGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; position: relative; z-index: 1; margin-top: 20px; }
-.phiCard { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 24px; padding: 36px 28px; transition: all 0.3s; }
-.phiCard:hover { background: var(--bg-card-hover); transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-[data-theme='dark'] .phiCard:hover { box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+
+/* ── PREMIUM SCOOP SPOTLIGHT CARDS ── */
+.spotlightWrapper {
+  --radius: 32px;
+  position: relative;
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.scoopCornersMask {
+  mask: 
+    radial-gradient(circle at 0 0, transparent 20px, black 20.5px) 0 0 / 51% 51% no-repeat,
+    radial-gradient(circle at 100% 0, transparent 20px, black 20.5px) 100% 0 / 51% 51% no-repeat,
+    radial-gradient(circle at 0 100%, transparent 20px, black 20.5px) 0 100% / 51% 51% no-repeat,
+    radial-gradient(circle at 100% 100%, transparent 20px, black 20.5px) 100% 100% / 51% 51% no-repeat;
+  -webkit-mask: 
+    radial-gradient(circle at 0 0, transparent 20px, black 20.5px) 0 0 / 51% 51% no-repeat,
+    radial-gradient(circle at 100% 0, transparent 20px, black 20.5px) 100% 0 / 51% 51% no-repeat,
+    radial-gradient(circle at 0 100%, transparent 20px, black 20.5px) 0 100% / 51% 51% no-repeat,
+    radial-gradient(circle at 100% 100%, transparent 20px, black 20.5px) 100% 100% / 51% 51% no-repeat;
+}
+[data-theme='dark'] .spotlightWrapper {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: transparent;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+.spotlightWrapper:hover {
+  transform: translateY(-6px);
+}
+.spotlightGlow {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    600px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+    rgba(14, 165, 164, 0.1),
+    transparent 40%
+  );
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.spotlightWrapper:hover .spotlightGlow {
+  opacity: 1;
+}
+[data-theme='dark'] .spotlightGlow {
+  background: radial-gradient(
+    600px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+    rgba(255, 255, 255, 0.06),
+    transparent 40%
+  );
+}
+
+.phiCard { padding: 36px 28px; position: relative; z-index: 2; }
+.phiCardInner { position: relative; z-index: 2; pointer-events: none; }
 .phiNum { font-family: 'Fraunces', serif; font-size: 3.5rem; font-weight: 800; color: transparent; -webkit-text-stroke: 1.5px rgba(0,0,0,0.1); display: block; line-height: 1; margin-bottom: 20px; transition: all 0.3s; }
 [data-theme='dark'] .phiNum { -webkit-text-stroke: 1.5px rgba(255,255,255,0.1); }
 .phiCard:hover .phiNum { color: rgba(0,0,0,0.05); -webkit-text-stroke-color: rgba(0,0,0,0.2); }
@@ -364,8 +418,8 @@
 /* ── TESTIMONIALS ── */
 .testimonials { padding: 120px 0; position: relative; background: var(--bg-body); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
 [data-theme='dark'] .testimonials { background: #0F172A; }
-.testiCard { position: relative; padding: 40px 32px 32px; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-[data-theme='dark'] .testiCard { background: rgba(255,255,255,0.02); border-color: transparent; box-shadow: none; }
+.testiCard { padding: 40px 32px 32px; position: relative; z-index: 2; }
+.testiCardInner { position: relative; z-index: 2; pointer-events: none; }
 .testiQuoteMark { font-family: 'Fraunces', serif; font-size: 5rem; line-height: 1; color: var(--border-light); position: absolute; top: 10px; left: 24px; font-style: italic; }
 [data-theme='dark'] .testiQuoteMark { color: rgba(255,255,255,0.05); }
 .testiText { font-size: 1rem; color: var(--text-main); line-height: 1.75; margin-bottom: 24px; padding-top: 16px; position: relative; z-index: 1; }

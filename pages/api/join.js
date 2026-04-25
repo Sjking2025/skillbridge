@@ -148,7 +148,7 @@ body{margin:0;padding:0;background:#0F172A;font-family:'Segoe UI',Arial,sans-ser
 .mdetail-row:last-child{border:none}
 .mdetail-lbl{font-size:12px;color:rgba(255,255,255,0.38);width:38%;font-weight:500}
 .mdetail-val{font-size:12px;color:rgba(255,255,255,0.82);font-weight:600;flex:1}
-.ppill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:700;background:\${path.bg};color:\${path.color}}
+.ppill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:700;background:${path.bg};color:${path.color}}
 
 /* session */
 .scard{background:linear-gradient(135deg,#FF6B1A,#FF9933);border-radius:14px;padding:24px 28px;margin-bottom:24px;position:relative;overflow:hidden}
@@ -214,7 +214,7 @@ body{margin:0;padding:0;background:#0F172A;font-family:'Segoe UI',Arial,sans-ser
     <span class="logo-text">Skill<span>Bridge</span></span>
   </div>
   <span class="hdr-emoji">🎉</span>
-  <h1>Welcome aboard,<br/><em>\${firstName}!</em></h1>
+  <h1>Welcome aboard,<br/><em>${firstName}!</em></h1>
   <p class="hdr-sub">You just made the most important decision of your tech journey.</p>
   <div class="dots">
     <div class="dot" style="background:#0EA5A4"></div>
@@ -228,7 +228,7 @@ body{margin:0;padding:0;background:#0F172A;font-family:'Segoe UI',Arial,sans-ser
 <div class="body">
 
   <p class="greeting">
-    Hey <strong>\${firstName}</strong> 👋 —<br/><br/>
+    Hey <strong>${firstName}</strong> 👋 —<br/><br/>
     You've just joined <strong>2,400+ students</strong> from tier-2 and tier-3 colleges across India
     who are done watching tutorials and started building real things. No spoon-feeding.
     No copy-paste. Just real thinking, real mistakes, and real growth.<br/><br/>
@@ -240,17 +240,17 @@ body{margin:0;padding:0;background:#0F172A;font-family:'Segoe UI',Arial,sans-ser
     <div class="mcard-bar"></div>
     <div class="mcard-lbl">✦ Your SkillBridge Profile</div>
     <div class="mcard-top">
-      <div class="avtr">\${initials}</div>
+      <div class="avtr">${initials}</div>
       <div class="mcard-info">
-        <div class="mcard-name">\${fullName}</div>
-        <div class="mcard-since">Member since \${joinedAt}</div>
+        <div class="mcard-name">${fullName}</div>
+        <div class="mcard-since">Member since ${joinedAt}</div>
       </div>
       <div class="mcard-badge">Active Member</div>
     </div>
-    <div class="mdetail-row"><div class="mdetail-lbl">College</div><div class="mdetail-val">\${college}</div></div>
-    <div class="mdetail-row"><div class="mdetail-lbl">Year</div><div class="mdetail-val">\${year}</div></div>
-    <div class="mdetail-row"><div class="mdetail-lbl">Level</div><div class="mdetail-val">\${level}</div></div>
-    <div class="mdetail-row"><div class="mdetail-lbl">Skill Path</div><div class="mdetail-val"><span class="ppill">\${path.emoji} \${skillPath || 'Exploring'}</span></div></div>
+    <div class="mdetail-row"><div class="mdetail-lbl">College</div><div class="mdetail-val">${college}</div></div>
+    <div class="mdetail-row"><div class="mdetail-lbl">Year</div><div class="mdetail-val">${year}</div></div>
+    <div class="mdetail-row"><div class="mdetail-lbl">Level</div><div class="mdetail-val">${level}</div></div>
+    <div class="mdetail-row"><div class="mdetail-lbl">Skill Path</div><div class="mdetail-val"><span class="ppill">${path.emoji} ${skillPath || 'Exploring'}</span></div></div>
   </div>
 
   <!-- SESSION CARD -->
@@ -258,8 +258,8 @@ body{margin:0;padding:0;background:#0F172A;font-family:'Segoe UI',Arial,sans-ser
     <div class="scard-lbl">Your Daily Live Session</div>
     <div class="scard-title">CS02 — Daily Coding Practice</div>
     <div class="scard-meta">Every day at <strong>8:00 PM IST</strong> on Google Meet &nbsp;·&nbsp; Hosted by MrSJ<br/>Show up consistently. That's 80% of the battle.</div>
-    <a href="\${meetLink}" class="btn-meet">▶ Join Google Meet</a>
-    <a href="\${appointmentLink}" class="btn-cal">📅 Add to Calendar</a>
+    <a href="${meetLink}" class="btn-meet">▶ Join Google Meet</a>
+    <a href="${appointmentLink}" class="btn-cal">📅 Add to Calendar</a>
   </div>
 
   <!-- WHAT NEXT -->
@@ -287,7 +287,7 @@ body{margin:0;padding:0;background:#0F172A;font-family:'Segoe UI',Arial,sans-ser
     </div>
   </div>
   <div class="expect-item">
-    <div class="e-icon" style="background:#F0FDF4">🧑🏫</div>
+    <div class="e-icon" style="background:#F0FDF4">🧑‍🏫</div>
     <div>
       <div class="e-title">Mentor Access</div>
       <div class="e-desc">Industry professionals who came from exactly where you are. Real questions get real answers. No gatekeeping.</div>
@@ -326,8 +326,8 @@ body{margin:0;padding:0;background:#0F172A;font-family:'Segoe UI',Arial,sans-ser
     <p class="sig-role">Founder, SkillBridge &nbsp;·&nbsp; Chennai, India</p>
     <div class="sig-links">
       <a href="mailto:sanjayias91@gmail.com" class="sig-link">✉ sanjayias91@gmail.com</a>
-      <a href="\${meetLink}" class="sig-link">📹 Google Meet</a>
-      <a href="\${appointmentLink}" class="sig-link">📅 Book a slot</a>
+      <a href="${meetLink}" class="sig-link">📹 Google Meet</a>
+      <a href="${appointmentLink}" class="sig-link">📅 Book a slot</a>
     </div>
   </div>
 
@@ -366,17 +366,17 @@ function buildICS({ fullName, email, meetLink, appointmentLink, senderEmail }) {
     'END:STANDARD',
     'END:VTIMEZONE',
     'BEGIN:VEVENT',
-    `UID:cs02-sb-\${Date.now()}@skillbridge`,
-    `DTSTAMP:\${new Date().toISOString().replace(/[-:.]/g,'').slice(0,15)}Z`,
+    `UID:cs02-sb-${Date.now()}@skillbridge`,
+    `DTSTAMP:${new Date().toISOString().replace(/[-:.]/g,'').slice(0,15)}Z`,
     'DTSTART;TZID=Asia/Kolkata:20260428T200000',
     'DTEND;TZID=Asia/Kolkata:20260428T210000',
     'RRULE:FREQ=DAILY;INTERVAL=1',
     'SUMMARY:CS02 — Daily Coding Practice (SkillBridge)',
-    `DESCRIPTION:Daily coding practice at 8 PM IST hosted by Sanjay R (MrSJ).\\n\\nJoin: \${meetLink}\\nAdd to calendar: \${appointmentLink}\\n\\n"Start before you feel ready." — SkillBridge`,
-    `LOCATION:\${meetLink}`,
-    `URL:\${meetLink}`,
-    `ORGANIZER;CN=Sanjay R - SkillBridge:mailto:\${senderEmail || 'sanjayias91@gmail.com'}`,
-    `ATTENDEE;CN=\${fullName};RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:\${email}`,
+    `DESCRIPTION:Daily coding practice at 8 PM IST hosted by Sanjay R (MrSJ).\\n\\nJoin: ${meetLink}\\nAdd to calendar: ${appointmentLink}\\n\\n"Start before you feel ready." — SkillBridge`,
+    `LOCATION:${meetLink}`,
+    `URL:${meetLink}`,
+    `ORGANIZER;CN=Sanjay R - SkillBridge:mailto:${senderEmail || 'sanjayias91@gmail.com'}`,
+    `ATTENDEE;CN=${fullName};RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:${email}`,
     'STATUS:CONFIRMED',
     'SEQUENCE:0',
     'TRANSP:OPAQUE',

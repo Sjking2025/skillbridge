@@ -1,13 +1,39 @@
 // pages/index.js
 import Head from 'next/head'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { useTheme } from 'next-themes'
 import { 
   Sparkles, Brain, MonitorPlay, GraduationCap, MessageCircle, 
   Globe, Coffee, Bot, Target, Building2, Lightbulb, 
-  Users, Calendar, Trophy, UserCheck, PartyPopper 
+  Users, Calendar, Trophy, UserCheck, PartyPopper,
+  Sun, Moon
 } from 'lucide-react'
 import styles from '../styles/Home.module.css'
+
+const ThemeToggle = () => {
+  const [mounted, setMounted] = useState(false)
+  const { theme, setTheme } = useTheme()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return <div style={{width: 36, height: 36, marginLeft: 10}}></div>
+  }
+
+  return (
+    <button 
+      className={styles.themeToggleBtn}
+      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      aria-label="Toggle Dark Mode"
+    >
+      {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+    </button>
+  )
+}
+
 
 export default function Home() {
   const [form, setForm] = useState({
@@ -76,7 +102,10 @@ export default function Home() {
               <li><a href="#paths">Paths</a></li>
               <li><a href="#community">Community</a></li>
             </ul>
-            <a href="#join" className={`${styles.btn} ${styles.btnPrimary} ${styles.navCta}`}>Join Free</a>
+            <div className={styles.navActions}>
+              <a href="#join" className={`${styles.btn} ${styles.btnPrimary} ${styles.navCta}`}>Join Free</a>
+              <ThemeToggle />
+            </div>
           </div>
         </div>
       </nav>
@@ -115,7 +144,7 @@ export default function Home() {
                   className={`${styles.heroFloatCard} ${styles.heroFloatCardAccent}`}
                 >
                   <div className={styles.hfcTop}>
-                    <div className={styles.hfcAvatar} style={{background:'rgba(14,165,164,0.3)',color:'#5EEAD4'}}>RK</div>
+                    <div className={`${styles.hfcAvatar} ${styles.avatarTeal}`}>RK</div>
                     <div>
                       <div className={styles.hfcName}>Rahul K.</div>
                       <div className={styles.hfcMeta}>B.Sc Agriculture → Web Dev</div>
@@ -130,7 +159,7 @@ export default function Home() {
                   className={`${styles.heroFloatCard} ${styles.heroFloatCardBase}`}
                 >
                   <div className={styles.hfcTop}>
-                    <div className={styles.hfcAvatar} style={{background:'rgba(99,102,241,0.25)',color:'#818CF8'}}>PS</div>
+                    <div className={`${styles.hfcAvatar} ${styles.avatarIndigo}`}>PS</div>
                     <div>
                       <div className={styles.hfcName}>Priya S.</div>
                       <div className={styles.hfcMeta}>Tier-3 college · 2nd year</div>
@@ -145,8 +174,8 @@ export default function Home() {
                   className={`${styles.heroFloatCard} ${styles.heroFloatCardSaffron}`}
                 >
                   <div style={{fontSize:'0.8rem',color:'rgba(255,255,255,0.7)',marginBottom:'8px',textTransform:'uppercase',letterSpacing:'1px',fontWeight:700}}>Daily Live — CS02</div>
-                  <div style={{fontSize:'1.1rem',fontWeight:'800',color:'#fff',marginBottom:'6px'}}>Coding Practice</div>
-                  <div style={{fontSize:'0.85rem',color:'rgba(255,255,255,0.6)'}}>Every day · 8:00 PM IST</div>
+                  <div style={{fontSize:'1.1rem',fontWeight:'800',color:'var(--hero-card-strong)',marginBottom:'6px'}}>Coding Practice</div>
+                  <div style={{fontSize:'0.85rem',color:'var(--hero-card-sub)'}}>Every day · 8:00 PM IST</div>
                   <div className={styles.progressBar} style={{marginTop:'12px'}}><div className={`${styles.progressFill} ${styles.progressFillSaffron}`} style={{width:'91%'}}></div></div>
                 </motion.div>
               </div>
@@ -252,8 +281,8 @@ export default function Home() {
         <div className={styles.container}>
           <motion.div variants={fadeInUp} className={`${styles.sectionHeader} ${styles.centered} ${styles.phiHeader}`}>
             <div className={styles.sectionLabel}>Our Method</div>
-            <h2 className={`${styles.h2} ${styles.h2White}`}>How We Learn <em style={{color:'#FF9933'}}>Differently</em></h2>
-            <p className={`${styles.sectionIntro} ${styles.introDark}`}>Not another tutorial platform. Real learning happens through struggle, curiosity, and honest reflection.</p>
+            <h2 className={styles.h2}>How We Learn <em style={{color:'var(--saffron)'}}>Differently</em></h2>
+            <p className={styles.sectionIntro}>Not another tutorial platform. Real learning happens through struggle, curiosity, and honest reflection.</p>
           </motion.div>
           <div className={styles.phiGrid}>
             {[

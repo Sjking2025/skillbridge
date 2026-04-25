@@ -1,19 +1,90 @@
 /* styles/globals.css */
+:root {
+  --teal: #0EA5A4;
+  --teal-dark: #0A7B7A;
+  --teal-light: #5EEAD4;
+  --saffron: #FF9933;
+  --saffron-light: #FFB84D;
+  --saffron-dark: #CC7A29;
+  --indigo: #6366F1;
+  --indigo-light: #818CF8;
+
+  /* Light Theme Defaults */
+  --bg-body: #F8FAFC;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #F1F5F9;
+  --border-light: rgba(0, 0, 0, 0.08);
+  --border-glow: rgba(14, 165, 164, 0.15);
+  --text-main: #0F172A;
+  --text-muted: #475569;
+  --nav-bg: rgba(255, 255, 255, 0.8);
+  --hero-gradient-center: #E2E8F0;
+  --btn-ghost-bg: rgba(0, 0, 0, 0.05);
+  --btn-ghost-border: rgba(0, 0, 0, 0.1);
+  --btn-ghost-text: #0F172A;
+  --btn-ghost-hover-bg: rgba(0, 0, 0, 0.1);
+  --hero-card-bg: #FFFFFF;
+  --hero-card-border: rgba(0, 0, 0, 0.1);
+  --hero-card-text: #0F172A;
+  --hero-card-strong: #000;
+  --hero-card-sub: #475569;
+  --scrollbar-track: #F1F5F9;
+  --scrollbar-thumb: #CBD5E1;
+  --scrollbar-thumb-hover: #94A3B8;
+  --btn-white-solid-bg: #0F172A;
+  --btn-white-solid-text: #fff;
+  --btn-white-solid-shadow: rgba(0,0,0,0.15);
+  --selection-bg: rgba(14, 165, 164, 0.2);
+  --selection-color: #0A7B7A;
+  --problem-icon-bg: #F1F5F9;
+}
+
+[data-theme='dark'] {
+  --bg-body: #0B1120;
+  --bg-card: rgba(30, 41, 59, 0.4);
+  --bg-card-hover: rgba(30, 41, 59, 0.7);
+  --border-light: rgba(255, 255, 255, 0.08);
+  --border-glow: rgba(14, 165, 164, 0.3);
+  --text-main: #F8FAFC;
+  --text-muted: #94A3B8;
+  --nav-bg: rgba(11, 17, 32, 0.7);
+  --hero-gradient-center: #1e1b4b;
+  --btn-ghost-bg: rgba(255, 255, 255, 0.05);
+  --btn-ghost-border: rgba(255, 255, 255, 0.2);
+  --btn-ghost-text: #fff;
+  --btn-ghost-hover-bg: rgba(255, 255, 255, 0.1);
+  --hero-card-bg: #0F172A;
+  --hero-card-border: rgba(255, 255, 255, 0.1);
+  --hero-card-text: #CBD5E1;
+  --hero-card-strong: #fff;
+  --hero-card-sub: var(--text-muted);
+  --scrollbar-track: #0F172A;
+  --scrollbar-thumb: #334155;
+  --scrollbar-thumb-hover: #475569;
+  --btn-white-solid-bg: #fff;
+  --btn-white-solid-text: #0F172A;
+  --btn-white-solid-shadow: rgba(0,0,0,0.3);
+  --selection-bg: rgba(14, 165, 164, 0.3);
+  --selection-color: #5EEAD4;
+  --problem-icon-bg: #1E293B;
+}
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: #0B1120; /* Deep premium slate/navy */
-  color: #F8FAFC;
+  background: var(--bg-body);
+  color: var(--text-main);
   line-height: 1.65;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 ::selection {
-  background: rgba(14, 165, 164, 0.3);
-  color: #5EEAD4;
+  background: var(--selection-bg);
+  color: var(--selection-color);
 }
 
 /* Custom Scrollbar for premium feel */
@@ -21,12 +92,12 @@ body {
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #0F172A;
+  background: var(--scrollbar-track);
 }
 ::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: var(--scrollbar-thumb);
   border-radius: 5px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: var(--scrollbar-thumb-hover);
 }

@@ -301,6 +301,54 @@ export default function Home() {
         </div>
       </motion.section>
 
+      {/* ── TESTIMONIALS ── */}
+      <motion.section initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer} className={styles.testimonials}>
+        <div className={styles.container}>
+          <motion.div variants={fadeInUp} className={`${styles.sectionHeader} ${styles.centered}`}>
+            <div className={styles.sectionLabel}>Student Stories</div>
+            <h2 className={styles.h2}>From <em style={{color:'var(--teal)'}}>Confusion</em> to Clarity</h2>
+            <p className={styles.sectionIntro}>Real words from students who were exactly where you are now.</p>
+          </motion.div>
+          <div className={`${styles.cardGrid} ${styles.cardGrid3}`}>
+            {[
+              {
+                quote: "I used to copy-paste code from Stack Overflow without understanding anything. After 3 months with SkillBridge, I can look at someone else's code and understand WHY they wrote it that way. That change is everything.",
+                name: "Ankit K.",
+                detail: "B.Sc Physics → Web Dev · Placed at Chennai startup",
+                initials: "AK",
+                avatarClass: "avatarTeal"
+              },
+              {
+                quote: "Everyone told me an Arts background means no tech job. SkillBridge was the first place that didn't treat me differently. My first interview went well because I could finally explain my thinking — not just my code.",
+                name: "Meghna P.",
+                detail: "BA English → Frontend Dev · Currently job hunting",
+                initials: "MP",
+                avatarClass: "avatarPurple"
+              },
+              {
+                quote: "I failed my 5th interview and was ready to quit. The SkillBridge community helped me do a proper review session. The 7th interview — I got the offer. It's not talent, it's the right environment.",
+                name: "Suresh R.",
+                detail: "Diploma in Mech. Engg → Java Dev · Placed in Hyderabad",
+                initials: "SR",
+                avatarClass: "avatarSaffron"
+              }
+            ].map((item, i) => (
+              <motion.div variants={fadeInUp} className={styles.testiCard} key={i}>
+                <div className={styles.testiQuoteMark}>&ldquo;</div>
+                <p className={styles.testiText}>{item.quote}</p>
+                <div className={styles.testiAuthor}>
+                  <div className={`${styles.testiAvatar} ${styles[item.avatarClass]}`}>{item.initials}</div>
+                  <div>
+                    <div className={styles.testiName}>{item.name}</div>
+                    <div className={styles.testiDetail}>{item.detail}</div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </motion.section>
+
       {/* ── COMMUNITY + JOIN FORM ── */}
       <motion.section initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer} className={styles.community} id="community">
         <div className={styles.container}>

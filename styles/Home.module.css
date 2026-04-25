@@ -361,6 +361,26 @@
 .cscNum { font-family: 'Fraunces', serif; font-size: 1.8rem; font-weight: 800; color: var(--text-main); line-height: 1.2; }
 .cscLabel { font-size: 0.9rem; color: var(--text-muted); margin-top: 4px; font-weight: 500; }
 
+/* ── TESTIMONIALS ── */
+.testimonials { padding: 120px 0; position: relative; background: var(--bg-body); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
+[data-theme='dark'] .testimonials { background: #0F172A; }
+.testiCard { position: relative; padding: 40px 32px 32px; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+[data-theme='dark'] .testiCard { background: rgba(255,255,255,0.02); border-color: transparent; box-shadow: none; }
+.testiQuoteMark { font-family: 'Fraunces', serif; font-size: 5rem; line-height: 1; color: var(--border-light); position: absolute; top: 10px; left: 24px; font-style: italic; }
+[data-theme='dark'] .testiQuoteMark { color: rgba(255,255,255,0.05); }
+.testiText { font-size: 1rem; color: var(--text-main); line-height: 1.75; margin-bottom: 24px; padding-top: 16px; position: relative; z-index: 1; }
+.testiAuthor { display: flex; align-items: center; gap: 14px; border-top: 1px solid var(--border-light); padding-top: 20px; }
+.testiAvatar { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+[data-theme='dark'] .testiAvatar { box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+.testiName { font-weight: 700; font-size: 1rem; color: var(--text-main); }
+.testiDetail { font-size: 0.85rem; color: var(--text-muted); margin-top: 2px; }
+.avatarSaffron { background: rgba(255,153,51,0.15); color: var(--saffron-dark); }
+[data-theme='dark'] .avatarSaffron { background: rgba(255,153,51,0.25); color: var(--saffron-light); }
+.avatarPurple { background: rgba(168,85,247,0.15); color: #7E22CE; }
+[data-theme='dark'] .avatarPurple { background: rgba(168,85,247,0.25); color: #C084FC; }
+.avatarTeal { background: rgba(14,165,164,0.15); color: var(--teal-dark); }
+[data-theme='dark'] .avatarTeal { background: rgba(14,165,164,0.25); color: var(--teal-light); }
+
 /* ── FINAL CTA ── */
 .finalCta {
   background: linear-gradient(145deg, #0891B2 0%, var(--teal) 50%, #0A7B7A 100%);

@@ -48,7 +48,7 @@ const SpotlightCard = ({ children, className }) => {
 
   return (
     <div className={styles.spotlightWrapper} ref={cardRef} onMouseMove={handleMouseMove}>
-      <div className={`${styles.scoopCornersMask} ${className}`}>
+      <div className={className}>
         {children}
         <div className={styles.spotlightGlow} />
       </div>
@@ -353,10 +353,11 @@ export default function Home() {
           </motion.div>
           <div className={styles.phiGrid}>
             {[
-              { num:'01', title:'Make Mistakes', body:"We show you why things break and help you develop the instinct to debug independently." },
-              { num:'02', title:'Ask WHY', body:"We teach you why a solution is the right choice — and when it isn't." },
-              { num:'03', title:'No Spoon-Feeding', body:"The discomfort of not-knowing is where real learning lives. We sit in it together." },
-              { num:'04', title:'Thinking > Memory', body:"We want you to build the confidence to arrive at your own answers under pressure." },
+              { num:'01', title:'Incremental Learning', body:"We continuously stack concepts—combining the past with the present—so you build, break, and fix instead of watching isolated tutorials." },
+              { num:'02', title:'Make Mistakes', body:"We show you why things break and help you develop the instinct to debug independently." },
+              { num:'03', title:'Ask WHY', body:"We teach you why a solution is the right choice — and when it isn't." },
+              { num:'04', title:'No Spoon-Feeding', body:"The discomfort of not-knowing is where real learning lives. We sit in it together." },
+              { num:'05', title:'Thinking > Memory', body:"We want you to build the confidence to arrive at your own answers under pressure." },
             ].map((item, i) => (
               <motion.div variants={fadeInUp} key={i}>
                 <SpotlightCard className={styles.phiCard}>

@@ -89,7 +89,7 @@ npm run dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## 🤝 Community Impact
-- **2,400+ Students** across 180+ colleges in India.
+- **Growing Community** across 180+ colleges in India.
 - **Daily Sessions:** Peer learning in small groups (6-8 students).
 - **Mentorship:** Industry professionals who review resumes and conduct mock interviews.
 

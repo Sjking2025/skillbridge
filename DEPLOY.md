@@ -97,11 +97,11 @@ When someone fills the form:
    GOOGLE_CLIENT_ID=      ← from Step 1
    GOOGLE_CLIENT_SECRET=  ← from Step 1
    GOOGLE_REFRESH_TOKEN=  ← from Step 2
-   SENDER_EMAIL=sanjayias91@gmail.com
-   SENDER_NAME=Sanjay R — SkillBridge
+   SENDER_EMAIL=your_sender_email_here@example.com
+   SENDER_NAME=Your Name — Your Org
    GOOGLE_SHEET_ID=       ← from Step 3
-   GOOGLE_CALENDAR_EVENT_ID=292d0s1tbbnjmjkq95jueomvgk
-   GOOGLE_CALENDAR_ID=sanjayias91@gmail.com
+   GOOGLE_CALENDAR_EVENT_ID=your_calendar_event_id_here
+   GOOGLE_CALENDAR_ID=your_calendar_email_here@example.com
 
 3. Install dependencies:
    npm install
@@ -169,9 +169,9 @@ Email not sending:
 ## YOUR FIXED VALUES (pre-filled)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Your Gmail:            sanjayias91@gmail.com
-Your Calendar ID:      sanjayias91@gmail.com
-Your Calendar Event:   292d0s1tbbnjmjkq95jueomvgk
-                       (CS02 - Daily Coding Practice - MrSJ)
-Google Meet Link:      https://meet.google.com/goj-aihh-otd
+Your Gmail:            your_email@example.com
+Your Calendar ID:      your_email@example.com
+Your Calendar Event:   your_event_id_here
+                       (Your Daily Event Name)
+Google Meet Link:      https://meet.google.com/your-link
 Session Time:          Every day at 8:00 PM IST

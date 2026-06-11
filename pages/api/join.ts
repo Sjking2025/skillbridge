@@ -4,26 +4,84 @@
 // 3. Attaches .ics calendar invite (with 2 reminders)
 // 4. Patches Google Calendar event with new attendee
 
-import { getOAuth2Client, getGmail, getSheets, getCalendar } from '../../lib/googleClient'
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { getOAuth2Client, getGmail, getSheets, getCalendar } from '../../src/services/googleClient'
+import DOMPurify from 'isomorphic-dompurify'
+import { waitUntil } from '@vercel/functions'
 
-export default async function handler(req, res) {
+type RateLimit = {
+  count: number;
+  startTime: number;
+};
+
+const rateLimitCache = new Map<string, RateLimit>();
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
+const MAX_REQUESTS = 5;
+
+type JoinRequestBody = {
+  firstName: string;
+  lastName?: string;
+  email: string;
+  college: string;
+  year: string;
+  level: string;
+  path?: string;
+  whatsapp?: string;
+};
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
 
-  const { firstName, lastName, email, college, year, level, path: skillPath, whatsapp } = req.body
+  // Anti-Bot / CSRF Check
+  const fetchSite = req.headers['sec-fetch-site'];
+  if (fetchSite && fetchSite !== 'same-origin') {
+    return res.status(403).json({ error: 'Cross-site requests are forbidden.' });
+  }
+
+  // Rate Limiting
+  const ip = (req.headers['x-forwarded-for'] as string) || req.socket.remoteAddress || 'unknown';
+  const now = Date.now();
+  if (ip !== 'unknown') {
+    const userLimit = rateLimitCache.get(ip) || { count: 0, startTime: now };
+    if (now - userLimit.startTime > RATE_LIMIT_WINDOW_MS) {
+      userLimit.count = 1;
+      userLimit.startTime = now;
+    } else {
+      userLimit.count++;
+      if (userLimit.count > MAX_REQUESTS) {
+        return res.status(429).json({ error: 'Too many requests, please try again later.' });
+      }
+    }
+    rateLimitCache.set(ip, userLimit);
+  }
+
+  const { firstName, lastName, email, college, year, level, path: skillPath, whatsapp } = req.body as JoinRequestBody
   if (!firstName || !email || !college || !year || !level)
     return res.status(400).json({ error: 'Missing required fields' })
+
+  if (firstName.length > 50 || (lastName && lastName.length > 50) || college.length > 150)
+    return res.status(400).json({ error: 'Input too long' })
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   if (!emailRegex.test(email)) return res.status(400).json({ error: 'Invalid email address' })
 
+  const cleanEmail = email.trim();
+  const cleanFirstName = DOMPurify.sanitize(firstName.replace(/[\r\n]/g, '')).trim();
+  const cleanLastName = lastName ? DOMPurify.sanitize(lastName.replace(/[\r\n]/g, '')).trim() : '';
+  const cleanCollege = DOMPurify.sanitize(college).trim();
+  const cleanYear = DOMPurify.sanitize(year).trim();
+  const cleanWhatsapp = whatsapp ? DOMPurify.sanitize(whatsapp).trim() : '';
+  const cleanLevel = DOMPurify.sanitize(level).trim();
+  const cleanSkillPath = skillPath ? DOMPurify.sanitize(skillPath).trim() : '';
+
   try {
     const auth = getOAuth2Client()
     const joinedAt = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
-    const fullName = `${firstName} ${lastName || ''}`.trim()
-    const meetLink = process.env.GOOGLE_MEET_LINK || 'https://meet.google.com/goj-aihh-otd'
-    const appointmentLink = process.env.CALENDAR_APPOINTMENT_LINK || 'https://calendar.app.google/TXNTgGhbVGhMAxPs8'
+    const fullName = `${cleanFirstName} ${cleanLastName}`.trim()
+    const meetLink = process.env.GOOGLE_MEET_LINK || 'https://meet.google.com/example'
+    const appointmentLink = process.env.CALENDAR_APPOINTMENT_LINK || 'https://calendar.google.com/example'
 
-    const pathMeta = {
+    const pathMeta: Record<string, { emoji: string, color: string, bg: string }> = {
       'Web Development':              { emoji: '🌐', color: '#0EA5A4', bg: '#E0F5F5' },
       'Java Backend':                 { emoji: '☕', color: '#E67E22', bg: '#FFF3E0' },
       'AI / Machine Learning':        { emoji: '🤖', color: '#8E44AD', bg: '#F3E8FF' },
@@ -34,84 +92,123 @@ export default async function handler(req, res) {
       'Data Structures & Algorithms': { emoji: '🧠', color: '#6366F1', bg: '#E0E7FF' },
       'Not sure yet':                 { emoji: '🧭', color: '#6B7280', bg: '#F3F4F6' },
     }
-    const path = pathMeta[skillPath] || pathMeta['Not sure yet']
-    const initials = `${firstName.charAt(0)}${(lastName || firstName).charAt(lastName ? 0 : 1)}`.toUpperCase()
+    const path = pathMeta[cleanSkillPath] || pathMeta['Not sure yet']
+    const initials = `${cleanFirstName.charAt(0)}${(cleanLastName || cleanFirstName).charAt(cleanLastName ? 0 : 1)}`.toUpperCase()
 
     // ── 1. GOOGLE SHEET ──────────────────────────────────────────────────
     const sheets = getSheets(auth)
-    await sheets.spreadsheets.values.append({
+
+    // Check for duplicates
+    const existingData = await sheets.spreadsheets.values.get({
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
-      range: 'Sheet1!A:I',
-      valueInputOption: 'USER_ENTERED',
-      insertDataOption: 'INSERT_ROWS',
-      requestBody: {
-        values: [[
-          joinedAt, fullName, email, college, year, level,
-          skillPath || 'Not selected', whatsapp || '', 'Active'
-        ]],
-      },
-    })
+      range: 'Sheet1!C:C',
+    });
+    const existingEmails = existingData.data.values ? existingData.data.values.flat() : [];
+    const isDuplicate = existingEmails.includes(cleanEmail);
 
-    // ── 2. RICH EMAIL ────────────────────────────────────────────────────
-    const gmail = getGmail(auth)
-    const emailHtml = buildEmail({ firstName, fullName, email, college, year, level, path, skillPath, initials, joinedAt, meetLink, appointmentLink })
+    // ── BACKGROUND TASK QUEUE ──────────────────────────────────────────
+    // Vercel waitUntil ensures this executes safely after responding to the user
+    waitUntil((async () => {
+      try {
+        // ── 1. GOOGLE SHEET ──────────────────────────────────────────────────
+        if (!isDuplicate) {
+          await sheets.spreadsheets.values.append({
+            spreadsheetId: process.env.GOOGLE_SHEET_ID,
+            range: 'Sheet1!A:I',
+            valueInputOption: 'RAW',
+            insertDataOption: 'INSERT_ROWS',
+            requestBody: {
+              values: [[
+                joinedAt, fullName, cleanEmail, cleanCollege, cleanYear, cleanLevel,
+                cleanSkillPath || 'Not selected', cleanWhatsapp, 'Active'
+              ]],
+            },
+          });
+        }
 
-    const icsContent = buildICS({ fullName, email, meetLink, appointmentLink, senderEmail: process.env.SENDER_EMAIL })
+        // ── 2. RICH EMAIL ────────────────────────────────────────────────────
+        const gmail = getGmail(auth);
+        const emailHtml = buildEmail({ firstName: cleanFirstName, fullName, email: cleanEmail, college: cleanCollege, year: cleanYear, level: cleanLevel, path, skillPath: cleanSkillPath, initials, joinedAt, meetLink, appointmentLink });
 
-    const boundary = `sb_${Date.now()}_boundary`
-    const mimeBody = [
-      `From: ${process.env.SENDER_NAME || 'Sanjay R — SkillBridge'} <${process.env.SENDER_EMAIL}>`,
-      `To: ${fullName} <${email}>`,
-      `Reply-To: ${process.env.SENDER_EMAIL}`,
-      `Subject: Welcome to SkillBridge, ${firstName}! 🎉 Your CS02 invite is inside`,
-      'MIME-Version: 1.0',
-      `Content-Type: multipart/mixed; boundary="${boundary}"`,
-      '',
-      `--${boundary}`,
-      'Content-Type: text/html; charset=UTF-8',
-      'Content-Transfer-Encoding: base64',
-      '',
-      Buffer.from(emailHtml).toString('base64'),
-      '',
-      `--${boundary}`,
-      'Content-Type: text/calendar; charset=UTF-8; method=REQUEST; name="CS02-DailyCodingPractice.ics"',
-      'Content-Transfer-Encoding: base64',
-      'Content-Disposition: attachment; filename="CS02-DailyCodingPractice.ics"',
-      '',
-      Buffer.from(icsContent).toString('base64'),
-      '',
-      `--${boundary}--`,
-    ].join('\r\n')
+        const icsContent = buildICS({ fullName, email: cleanEmail, meetLink, appointmentLink, senderEmail: process.env.SENDER_EMAIL });
 
-    const raw = Buffer.from(mimeBody).toString('base64').replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')
-    await gmail.users.messages.send({ userId: 'me', requestBody: { raw } })
+        const boundary = `sb_${Date.now()}_boundary`;
+        const mimeBody = [
+          `From: ${process.env.SENDER_NAME || 'Sanjay R — SkillBridge'} <${process.env.SENDER_EMAIL}>`,
+          `To: ${fullName} <${cleanEmail}>`,
+          `Reply-To: ${process.env.SENDER_EMAIL}`,
+          `Subject: Welcome to SkillBridge, ${cleanFirstName}! 🎉 Your CS02 invite is inside`,
+          'MIME-Version: 1.0',
+          `Content-Type: multipart/mixed; boundary="${boundary}"`,
+          '',
+          `--${boundary}`,
+          'Content-Type: text/html; charset=UTF-8',
+          'Content-Transfer-Encoding: base64',
+          '',
+          Buffer.from(emailHtml).toString('base64'),
+          '',
+          `--${boundary}`,
+          'Content-Type: text/calendar; charset=UTF-8; method=REQUEST; name="CS02-DailyCodingPractice.ics"',
+          'Content-Transfer-Encoding: base64',
+          'Content-Disposition: attachment; filename="CS02-DailyCodingPractice.ics"',
+          '',
+          Buffer.from(icsContent).toString('base64'),
+          '',
+          `--${boundary}--`,
+        ].join('\r\n');
 
-    // ── 3. PATCH CALENDAR ────────────────────────────────────────────────
-    const calendar = getCalendar(auth)
-    const existing = await calendar.events.get({
-      calendarId: process.env.GOOGLE_CALENDAR_ID,
-      eventId: process.env.GOOGLE_CALENDAR_EVENT_ID,
-    })
-    const attendees = existing.data.attendees || []
-    if (!attendees.some(a => a.email === email)) {
-      await calendar.events.patch({
-        calendarId: process.env.GOOGLE_CALENDAR_ID,
-        eventId: process.env.GOOGLE_CALENDAR_EVENT_ID,
-        sendUpdates: 'all',
-        requestBody: { attendees: [...attendees, { email, displayName: fullName }] },
-      })
-    }
+        const raw = Buffer.from(mimeBody).toString('base64').replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+        await gmail.users.messages.send({ userId: 'me', requestBody: { raw } });
 
-    return res.status(200).json({ success: true, message: `Welcome ${firstName}! Check ${email} for your invite.` })
+        // ── 3. PATCH CALENDAR ────────────────────────────────────────────────
+        const calendar = getCalendar(auth);
+        const existing = await calendar.events.get({
+          calendarId: process.env.GOOGLE_CALENDAR_ID,
+          eventId: process.env.GOOGLE_CALENDAR_EVENT_ID,
+        });
+        const attendees = existing.data.attendees || [];
+        if (!attendees.some(a => a.email === cleanEmail)) {
+          await calendar.events.patch({
+            calendarId: process.env.GOOGLE_CALENDAR_ID,
+            eventId: process.env.GOOGLE_CALENDAR_EVENT_ID,
+            sendUpdates: 'none', // Do not email all attendees
+            requestBody: { attendees: [...attendees, { email: cleanEmail, displayName: fullName }] },
+          });
+        }
+      } catch (bgErr: any) {
+        console.error('SkillBridge background task error:', bgErr);
+      }
+    })());
 
-  } catch (err) {
-    console.error('SkillBridge join error:', err)
-    return res.status(500).json({ error: 'Something went wrong. Please try again.', detail: process.env.NODE_ENV === 'development' ? err.message : undefined })
+    // INSTANT RESPONSE TO USER
+    const msg = isDuplicate 
+      ? `Welcome back ${cleanFirstName}! Check ${cleanEmail} for your re-sent invite.`
+      : `Welcome ${cleanFirstName}! Check ${cleanEmail} for your invite.`;
+    return res.status(200).json({ success: true, message: msg });
+
+  } catch (err: any) {
+    console.error('SkillBridge join error:', err);
+    return res.status(500).json({ error: 'Something went wrong. Please try again.', detail: process.env.NODE_ENV === 'development' ? err.message : undefined });
   }
 }
 
 // ── Email builder ────────────────────────────────────────────────────────────
-function buildEmail({ firstName, fullName, email, college, year, level, path, skillPath, initials, joinedAt, meetLink, appointmentLink }) {
+type BuildEmailArgs = {
+  firstName: string;
+  fullName: string;
+  email: string;
+  college: string;
+  year: string;
+  level: string;
+  path: { emoji: string, color: string, bg: string };
+  skillPath: string;
+  initials: string;
+  joinedAt: string;
+  meetLink: string;
+  appointmentLink: string;
+};
+
+function buildEmail({ firstName, fullName, email, college, year, level, path, skillPath, initials, joinedAt, meetLink, appointmentLink }: BuildEmailArgs) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -418,7 +515,15 @@ body{margin:0;padding:0;background:#0F172A;font-family:'Segoe UI',Arial,sans-ser
 }
 
 // ── ICS builder ──────────────────────────────────────────────────────────────
-function buildICS({ fullName, email, meetLink, appointmentLink, senderEmail }) {
+type BuildICSArgs = {
+  fullName: string;
+  email: string;
+  meetLink: string;
+  appointmentLink: string;
+  senderEmail?: string;
+};
+
+function buildICS({ fullName, email, meetLink, appointmentLink, senderEmail }: BuildICSArgs) {
   return [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',

@@ -32,6 +32,12 @@ type JoinRequestBody = {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
 
+  // Anti-Bot / CSRF Check
+  const fetchSite = req.headers['sec-fetch-site'];
+  if (fetchSite && fetchSite !== 'same-origin') {
+    return res.status(403).json({ error: 'Cross-site requests are forbidden.' });
+  }
+
   // Rate Limiting
   const ip = (req.headers['x-forwarded-for'] as string) || req.socket.remoteAddress || 'unknown';
   const now = Date.now();
@@ -98,27 +104,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       range: 'Sheet1!C:C',
     });
     const existingEmails = existingData.data.values ? existingData.data.values.flat() : [];
-    if (existingEmails.includes(cleanEmail)) {
-      return res.status(200).json({ success: true, message: `Welcome back ${cleanFirstName}! You are already registered.` })
-    }
+    const isDuplicate = existingEmails.includes(cleanEmail);
 
     // ── BACKGROUND TASK QUEUE ──────────────────────────────────────────
     // Vercel waitUntil ensures this executes safely after responding to the user
     waitUntil((async () => {
       try {
         // ── 1. GOOGLE SHEET ──────────────────────────────────────────────────
-        await sheets.spreadsheets.values.append({
-          spreadsheetId: process.env.GOOGLE_SHEET_ID,
-          range: 'Sheet1!A:I',
-          valueInputOption: 'RAW',
-          insertDataOption: 'INSERT_ROWS',
-          requestBody: {
-            values: [[
-              joinedAt, fullName, cleanEmail, cleanCollege, cleanYear, cleanLevel,
-              cleanSkillPath || 'Not selected', cleanWhatsapp, 'Active'
-            ]],
-          },
-        });
+        if (!isDuplicate) {
+          await sheets.spreadsheets.values.append({
+            spreadsheetId: process.env.GOOGLE_SHEET_ID,
+            range: 'Sheet1!A:I',
+            valueInputOption: 'RAW',
+            insertDataOption: 'INSERT_ROWS',
+            requestBody: {
+              values: [[
+                joinedAt, fullName, cleanEmail, cleanCollege, cleanYear, cleanLevel,
+                cleanSkillPath || 'Not selected', cleanWhatsapp, 'Active'
+              ]],
+            },
+          });
+        }
 
         // ── 2. RICH EMAIL ────────────────────────────────────────────────────
         const gmail = getGmail(auth);
@@ -175,7 +181,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     })());
 
     // INSTANT RESPONSE TO USER
-    return res.status(200).json({ success: true, message: `Welcome ${cleanFirstName}! Check ${cleanEmail} for your invite.` });
+    const msg = isDuplicate 
+      ? `Welcome back ${cleanFirstName}! Check ${cleanEmail} for your re-sent invite.`
+      : `Welcome ${cleanFirstName}! Check ${cleanEmail} for your invite.`;
+    return res.status(200).json({ success: true, message: msg });
 
   } catch (err: any) {
     console.error('SkillBridge join error:', err);
